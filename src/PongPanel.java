@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
-
+    public String image_src = "C:\\E-drive-73865609\\COP290\\Assignment3\\ass3\\src\\final.png" ;
     public static final int WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
@@ -121,7 +121,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     private void loadImage() {
 
-        ImageIcon ii = new ImageIcon("G:\\COP Ping Pong\\game\\src\\final.png");
+        ImageIcon ii = new ImageIcon(image_src);
         pinpon = ii.getImage();
     }
 

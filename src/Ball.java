@@ -1,7 +1,12 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Ball
 {
@@ -26,7 +31,29 @@ public class Ball
     }
 
     public void update() {
-
+   //thread for sound
+    	  Thread t1 = new Thread(new Runnable() {
+			     public void run() {
+			    	 URL url=null ;
+			    	 try {
+		        			url = new URL("file:C:\\E-drive-73865609\\COP290\\Assignment3\\ass3\\src\\ball_paddle.wav");
+		        		} catch (MalformedURLException e) {
+		        			// TODO Auto-generated catch block
+		        			e.printStackTrace();
+		        		}
+		                AudioClip clip = Applet.newAudioClip(url);
+		                clip.play();
+		        		try {
+		        			Thread.sleep(10000);
+		        		} catch (InterruptedException e) {
+		        			// TODO Auto-generated catch block
+		        			e.printStackTrace();
+		        		}
+		        		// end of test 
+			     }
+			});  
+    	
+    	
         //where will the ball be after it moves?
         int nextBallLeft = ballX + ballDeltaX;
         int nextBallRight = ballX + diameter + ballDeltaX;
@@ -52,6 +79,9 @@ public class Ball
             else {
 
                 ballDeltaX *= (-1);
+     			t1.start(); 	  
+                
+                
 
 
 
@@ -73,6 +103,7 @@ public class Ball
             }
             else {
                 ballDeltaX *= -1;
+                t1.start() ;
             }
         }
 
@@ -93,6 +124,7 @@ public class Ball
 
 
                 ballDeltaY *= -1;
+                t1.start(); 
             }
         }
 
@@ -111,6 +143,7 @@ public class Ball
             }
             else {
                 ballDeltaY *= -1;
+                t1.start() ;
             }
         }
 

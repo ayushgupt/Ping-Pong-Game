@@ -42,23 +42,7 @@ public class Main{
         //Exiting on pressing close
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //test for playing sound 
-        URL url=null;
-		try {
-			url = new URL("file:C:\\E-drive-73865609\\COP290\\Assignment3\\ass3\\src\\ball.wav");
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.play();
-		try {
-			Thread.sleep(100000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// end of test 
+        
 
         frame.setLayout(new BorderLayout());
 
@@ -71,8 +55,7 @@ public class Main{
         frame.setVisible(true);
         //We wont be able to resize the frame
         frame.setResizable(false);
-        JTextField field = new JTextField(10);
-        frame.add(field, BorderLayout.SOUTH);
+        
         
         //showing player screen and bot screen
         demoswing  swingControlDemo = new demoswing();      
