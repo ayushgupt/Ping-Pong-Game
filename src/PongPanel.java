@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+import java.net.*;
 // TODO : int to float
 // TODO : move x and y of paddles to their centres
 
@@ -37,12 +37,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static int playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
     public static int playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
-
+     
     // PongPanel constructor
     public PongPanel(){
 
         setBackground(Color.BLACK);
-
+         
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
