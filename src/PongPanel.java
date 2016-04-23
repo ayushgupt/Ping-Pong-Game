@@ -11,17 +11,20 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.net.*;
+
 // TODO : int to float
 // TODO : move x and y of paddles to their centres
 
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
+
     public static final int WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
+    //the three screens whose visibility can be shown
     private static boolean showTitleScreen = true;
     private static boolean playing = false;
     private static boolean gameOver = false;
+
 
     public static final int margin = 40;
 
@@ -37,12 +40,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static int playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
     public static int playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
-     
+
     // PongPanel constructor
     public PongPanel(){
 
         setBackground(Color.BLACK);
-         
+
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
@@ -56,23 +59,24 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         // Initialize players
         playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2, 10, 50, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2, 10, 50, KeyEvent.VK_W, KeyEvent.VK_S);
-        playerT = new Player(PlayerType.T, Main.SIDE/2, (margin-10), 50, 10, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
-        playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50, 10, KeyEvent.VK_A, KeyEvent.VK_D);
+        playerT = new Player(PlayerType.T, Main.SIDE/2, (margin-10), 50, 10, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
+        playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50, 10, KeyEvent.VK_D, KeyEvent.VK_A);
 
         playerLScore = 3; playerRScore = 3; playerTScore = 3; playerBScore = 3;
 
-        //call step() 60 fps
+        //call step() 60 fps, its basically frequency per second
         int fps = 60;
         Timer timer = new Timer(1000/fps, this);
         timer.start();
 
     }
 
-
+//This is the function that is called again and again and it calls step function
     public void actionPerformed(ActionEvent e){
         step();
     }
 
+    //The things in this are done only if the playing state is currently displayed
     public void step(){
         //System.out.println(getHeight()+" "+getWidth());
         //System.out.println(ball.getBallVelX() + " " + ball.getBallVelX());
@@ -177,10 +181,17 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public void keyTyped(KeyEvent e) {}
 
-
     public void keyPressed(KeyEvent e) {
         if (showTitleScreen) {
             if (e.getKeyCode() == KeyEvent.VK_P) {
+                playerL.setUpPress(false);
+                playerL.setDownPress(false);
+                playerR.setUpPress(false);
+                playerR.setDownPress(false);
+                playerT.setUpPress(false);
+                playerT.setDownPress(false);
+                playerB.setUpPress(false);
+                playerB.setDownPress(false);
                 setPlaying();
             }
         }
@@ -229,7 +240,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         }
     }
 
-
     public void keyReleased(KeyEvent e) {
         if (playing) {
             if (e.getKeyCode() == playerL.getkeyup()) {
@@ -264,6 +274,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         showTitleScreen = false;
         playing = true;
     }
+
 
     public static void setOver(){
         System.out.println("Game over");
