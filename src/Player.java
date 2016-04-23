@@ -1,7 +1,7 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Player
 {
@@ -93,7 +93,30 @@ public class Player
     }
 
     public void drawPaddle(Graphics g){
-        g.fillRect(playerX, playerY, playerWidth, playerHeight);
+        switch(type){
+            case L :
+                g.setColor(Color.GREEN);
+                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                break;
+
+            case R :
+                g.setColor(Color.BLUE);
+                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                break;
+
+            case T :
+                g.setColor(Color.ORANGE);
+                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                break;
+
+            case B :
+                g.setColor(Color.PINK);
+                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                break;
+
+        }
+
+
     }
 
 
