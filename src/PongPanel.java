@@ -1,16 +1,13 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 // TODO : int to float
 // TODO : move x and y of paddles to their centres
@@ -25,6 +22,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     private static boolean playing = false;
     private static boolean gameOver = false;
 
+
+    public static double mu ;
 
     public static final int margin = 40;
 
@@ -41,16 +40,21 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static int playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
 
+    private Image pinpon;
     // PongPanel constructor
     public PongPanel(){
 
-        setBackground(Color.BLACK);
+        loadImage();
+
+        setBackground(new Color(255,0,0));
 
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
 
         paddleSpeed = 4 ;   // Speed of paddle
+
+        mu = 0.5;
 
         // Initialize a ball
         ball = new Ball(HEIGHT,WIDTH,20,Main.SIDE/2,Main.SIDE/2,1,-3);
@@ -105,6 +109,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             playerBLeft = playerB.getX();
             playerBRight = playerB.getX() + playerB.getWidth();
 
+
+
+
             ball.update();
         }
 
@@ -112,11 +119,23 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         repaint();
     }
 
+    private void loadImage() {
+
+        ImageIcon ii = new ImageIcon("G:\\COP Ping Pong\\game\\src\\final.png");
+        pinpon = ii.getImage();
+    }
+
     //paint the game screen
     public void paintComponent(Graphics g){
 
         super.paintComponent(g);
+
+
+        g.drawImage(pinpon, 85, 80, null);
+
         g.setColor(Color.WHITE);
+
+
 
         if (showTitleScreen) {
 
@@ -130,6 +149,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         }
         else if (playing) {
 
+            g.setColor(Color.BLUE);
+            g.fillOval(270, 270, 60, 60);
+
+            g.setColor(Color.WHITE);
             int leftmargin = playerL.getX();
             int rightmargin = playerR.getX() + playerR.getWidth();
             int topmargin = playerT.getY();

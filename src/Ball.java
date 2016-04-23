@@ -50,7 +50,11 @@ public class Ball
                 ballY = Main.SIDE/2;
             }
             else {
-                ballDeltaX *= -1;
+
+                ballDeltaX *= (-1);
+
+
+
             }
         }
 
@@ -86,6 +90,8 @@ public class Ball
 
             }
             else {
+
+
                 ballDeltaY *= -1;
             }
         }
