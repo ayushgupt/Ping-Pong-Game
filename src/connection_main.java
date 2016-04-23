@@ -32,11 +32,11 @@ public class connection_main {
 			case 2: System.out.println("enter address and port") ;
 				    String add= in.readLine();
 				    int p = Integer.parseInt(in.readLine()) ;
-				   ownClient = new client(add, p) ;
+				   /*ownClient = new client(add, p) ;
 				   if(!ownClient.connect())
 				   {
 					   System.out.println("failed to add new client");
-				   }
+				   }*/
 				    
 				break ;
 			case 3: System.out.println("Enter data to send");

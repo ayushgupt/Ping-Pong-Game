@@ -6,18 +6,21 @@ public class client {
 	
 	public String hostname ;
 	public int portnumber ;
-	public client(String name, int number)
+	public String data ;
+	public boolean connected ;
+	public client()
 	{
-		hostname = name ;
-		portnumber = number ;
+		
 	}
 	
-	public  boolean connect()
+	public  boolean connect(String ho,  int po ,int  id)
 	{
+		hostname = ho ;
+		portnumber = po ; 
 		try {
 			    Socket echoSocket = new Socket(hostname, portnumber);
 			    	
-			    new clientthread(echoSocket).start();
+			    new clientthread(echoSocket, id).start();
 			     
 			    return true;
 			    

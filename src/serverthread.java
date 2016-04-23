@@ -14,10 +14,10 @@ public class serverthread extends Thread{
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
-               
+                out.println("true");
 
                 while (true) {
-                    out.println(connection_main.data);
+                    out.println("some global variable");
                  if(stop)
                 	 break ;
                 }
