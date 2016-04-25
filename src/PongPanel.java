@@ -73,6 +73,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         if (!(new String(Main.sides).contains("R"))) { playerR.setBot(); }
         if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
 
+        // initialize gamestate
+        new GameState();
+
         //call step() 60 fps, its basically frequency per second
         int fps = 60;
         Timer timer = new Timer(1000/fps, this);
