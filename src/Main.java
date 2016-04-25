@@ -14,30 +14,38 @@ public class Main{
 
     public static final int SIDE = 600 ;
     public static int no_players ;
-    public static int no_bots ;
+    public static String side ;
     public static client[] sent_client ;
     public static String[] data ;
     public static boolean[] connected ;
     public static server ownServer ; 
     public static int num_connected ;
+    public static int id ;
+    public static char[] sides = {'X','X','X','X'} ;
+
+
     public static void main(String[] args) {
     	//number of connected initially=0 ;
     	 num_connected =0 ;
     	//starting server 
     	ownServer = new server(9000) ;
-    	//declaring connection test array 
+
+        //declaring connection test array
     	connected = new boolean[3] ; 
     	connected[0] = false ;
     	connected[1] = false ;
     	connected[2] = false ;
-    	//declaring Data string array 
+
+        //declaring Data string array
     	data = new String[3] ; 
-    	//declaring client array
+
+        //declaring client array
     	sent_client = new client[3];
     	sent_client[0] = new client() ;
     	sent_client[1] = new client() ;
     	sent_client[2] = new client() ;
-    	//Giving name to Jframe
+
+        //Giving name to Jframe
         JFrame frame = new JFrame("Pong");
         //Exiting on pressing close
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

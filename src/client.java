@@ -24,7 +24,8 @@ public class client {
 			     
 			    return true;
 			    
-		}catch(Exception e)
+		}
+		catch(Exception e)
 		{
 				System.out.println(e.getMessage()) ;
 				return false ;
@@ -32,11 +33,7 @@ public class client {
 		
 	}
 	
-	
-	public static void main(String[] args)
-	{
-		
-	}
+
 	
 	
 }

@@ -13,10 +13,12 @@ public class inputbox {
         prepareGUI();
     }
 
+    /*
     public static void main(String[] args){
         inputbox  swingControlDemo = new inputbox();
         swingControlDemo.showTextFieldDemo();
     }
+    */
 
     private void prepareGUI(){
         mainFrame = new JFrame("Java Swing Examples");
@@ -167,11 +169,6 @@ public class inputbox {
 	        	
         default :
         }
-
-
-
-
-
 
 
         mainFrame.setVisible(true);

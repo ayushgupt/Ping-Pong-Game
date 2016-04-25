@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
-    public String image_src = "C:\\E-drive-73865609\\COP290\\Assignment3\\ass3\\src\\final.png" ;
+    public String image_src = "C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\final.png" ;
     public static final int WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
@@ -27,7 +27,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public static final int margin = 40;
 
-    public Ball ball;
+    // public Ball ball;
     public Player playerL;
     public Player playerR;
     public Player playerT;
@@ -57,7 +57,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         mu = 0.5;
 
         // Initialize a ball
-        ball = new Ball(HEIGHT,WIDTH,20,Main.SIDE/2,Main.SIDE/2,1,-3);
+        new Ball(HEIGHT,WIDTH,20,Main.SIDE/2,Main.SIDE/2,1,-3);
 
 
         // Initialize players
@@ -67,6 +67,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50, 10, KeyEvent.VK_D, KeyEvent.VK_A);
 
         playerLScore = 3; playerRScore = 3; playerTScore = 3; playerBScore = 3;
+
+        if (!(new String(Main.sides).contains("L"))) { playerL.setBot(); }
+        if (!(new String(Main.sides).contains("T"))) { playerT.setBot(); }
+        if (!(new String(Main.sides).contains("R"))) { playerR.setBot(); }
+        if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
 
         //call step() 60 fps, its basically frequency per second
         int fps = 60;
@@ -109,10 +114,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             playerBLeft = playerB.getX();
             playerBRight = playerB.getX() + playerB.getWidth();
 
+            // Update ball position
+            Ball.update();
 
+            // Update gamestate - TODO update after averaging received gamestates
+            GameState.update(playerL.getY(),playerR.getY(),playerT.getX(),playerB.getX(),Ball.getBallX(),Ball.getBallY());
 
-
-            ball.update();
         }
 
         //stuff has moved, tell this JPanel to repaint itself
@@ -179,7 +186,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             */
 
             // draw ball
-            ball.drawBall(g);
+            Ball.drawBall(g);
 
             //draw the paddles
             playerL.drawPaddle(g);
@@ -219,37 +226,45 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             }
         }
         else if(playing){
-            if (e.getKeyCode() == playerL.getkeyup()) {
-                playerL.setUpPress(true);
+          if (!playerL.isBot()){
+              if (e.getKeyCode() == playerL.getkeyup()) {
+                  playerL.setUpPress(true);
+              }
+              else if (e.getKeyCode() == playerL.getkeydown()) {
+                  playerL.setDownPress(true);
+              }
             }
-            else if (e.getKeyCode() == playerL.getkeydown()) {
-                playerL.setDownPress(true);
-            }
-            else if (e.getKeyCode() == playerR.getkeyup()) {
-                playerR.setUpPress(true);
-            }
-            else if (e.getKeyCode() == playerR.getkeydown()) {
-                playerR.setDownPress(true);
-            }
-            else if (e.getKeyCode() == playerT.getkeyup()) {
-                playerT.setUpPress(true);
-            }
-            else if (e.getKeyCode() == playerT.getkeydown()) {
-                playerT.setDownPress(true);
-            }
-            else if (e.getKeyCode() == playerB.getkeyup()) {
-                playerB.setUpPress(true);
-            }
-            else if (e.getKeyCode() == playerB.getkeydown()) {
-                playerB.setDownPress(true);
-            }
+          if (!playerR.isBot()){
+              if (e.getKeyCode() == playerR.getkeyup()) {
+                  playerR.setUpPress(true);
+              }
+              else if (e.getKeyCode() == playerR.getkeydown()) {
+                  playerR.setDownPress(true);
+              }
+          }
+          if (!playerT.isBot()){
+              if (e.getKeyCode() == playerT.getkeyup()) {
+                  playerT.setUpPress(true);
+              }
+              else if (e.getKeyCode() == playerT.getkeydown()) {
+                  playerT.setDownPress(true);
+              }
+          }
+          if (!playerB.isBot()){
+              if (e.getKeyCode() == playerB.getkeyup()) {
+                  playerB.setUpPress(true);
+              }
+              else if (e.getKeyCode() == playerB.getkeydown()) {
+                  playerB.setDownPress(true);
+              }
+          }
         }
         else if (gameOver) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 gameOver = false;
                 showTitleScreen = true;
 
-                ball.setX(Main.SIDE/2); ball.setY(Main.SIDE/2);
+                Ball.setX(Main.SIDE/2); Ball.setY(Main.SIDE/2);
                 playerL.setY(Main.SIDE/2);
                 playerR.setY(Main.SIDE/2);
                 playerT.setX(Main.SIDE/2);
@@ -265,30 +280,38 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public void keyReleased(KeyEvent e) {
         if (playing) {
-            if (e.getKeyCode() == playerL.getkeyup()) {
-                playerL.setUpPress(false);
-            }
-            else if (e.getKeyCode() == playerL.getkeydown()) {
-                playerL.setDownPress(false);
-            }
-            else if (e.getKeyCode() == playerR.getkeyup()) {
+          if (!playerL.isBot()){
+              if (e.getKeyCode() == playerL.getkeyup()) {
+                  playerL.setUpPress(false);
+              }
+              else if (e.getKeyCode() == playerL.getkeydown()) {
+                  playerL.setDownPress(false);
+              }
+          }
+          if (!playerR.isBot()){
+            if (e.getKeyCode() == playerR.getkeyup()) {
                 playerR.setUpPress(false);
             }
             else if (e.getKeyCode() == playerR.getkeydown()) {
                 playerR.setDownPress(false);
             }
-            else if (e.getKeyCode() == playerT.getkeyup()) {
+          }
+          if (!playerT.isBot()){
+            if (e.getKeyCode() == playerT.getkeyup()) {
                 playerT.setUpPress(false);
             }
             else if (e.getKeyCode() == playerT.getkeydown()) {
                 playerT.setDownPress(false);
             }
-            else if (e.getKeyCode() == playerB.getkeyup()) {
+          }
+          if (!playerB.isBot()){
+            if (e.getKeyCode() == playerB.getkeyup()) {
                 playerB.setUpPress(false);
             }
             else if (e.getKeyCode() == playerB.getkeydown()) {
                 playerB.setDownPress(false);
             }
+          }
         }
     }
 

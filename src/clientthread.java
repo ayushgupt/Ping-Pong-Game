@@ -17,7 +17,7 @@ public class clientthread extends Thread{
 	 public void run()
 	 { try {
 		 BufferedReader in =new BufferedReader( new InputStreamReader(socket.getInputStream()));
-		  String confirmation =in.readLine() ;
+		 String confirmation =in.readLine() ;
 		 if(confirmation.equals("true"))
 		 {	
 			 Main.connected[id] =true ;
