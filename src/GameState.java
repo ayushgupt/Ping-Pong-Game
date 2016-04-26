@@ -17,7 +17,7 @@ public class GameState {
         gamestate.put("ballY",Main.SIDE/2);
     }
 
-    public static void update(int playerLY, int playerRY, int playerTX, int playerBX, int ballX, int ballY ){
+    public static void update(Double playerLY, Double playerRY, Double playerTX, Double playerBX, Double ballX, Double ballY ){
         gamestate.put("playerLY",playerLY);
         gamestate.put("playerRY",playerRY);
         gamestate.put("playerTX",playerTX);
@@ -26,12 +26,12 @@ public class GameState {
         gamestate.put("ballY",ballY);
     }
 
-    public static int getplayerLY(){ return (Integer)gamestate.get("playerLY"); }
-    public static int getplayerRY(){ return (Integer)gamestate.get("playerRY"); }
-    public static int getplayerTX(){ return (Integer)gamestate.get("playerTX"); }
-    public static int getplayerBX(){ return (Integer)gamestate.get("playerBX"); }
-    public static int getballX(){ return (Integer)gamestate.get("ballX"); }
-    public static int getballY(){ return (Integer)gamestate.get("ballY"); }
+    public static Double getplayerLY(){ return (Double)gamestate.get("playerLY"); }
+    public static Double getplayerRY(){ return (Double)gamestate.get("playerRY"); }
+    public static Double getplayerTX(){ return (Double)gamestate.get("playerTX"); }
+    public static Double getplayerBX(){ return (Double)gamestate.get("playerBX"); }
+    public static Double getballX(){ return (Double)gamestate.get("ballX"); }
+    public static Double getballY(){ return (Double)gamestate.get("ballY"); }
 
 
 }

@@ -15,7 +15,7 @@ import javax.swing.*;
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public String image_src = "C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\final.png" ;
-    public static final int WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
+    public static final Double WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
     private static boolean showTitleScreen = true;
@@ -25,7 +25,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public static double mu ;
 
-    public static final int margin = 40;
+    public static final Double margin = 40.0;
 
     // public Ball ball;
     public Player playerL;
@@ -33,11 +33,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerT;
     public Player playerB;
 
-    public static int paddleSpeed ;
+    public static Double paddleSpeed ;
 
     // Paddle specific variables
-    public static int playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
-    public static int playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
+    public static Double playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
+    public static Double playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
 
     private Image pinpon;
@@ -52,19 +52,19 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         setFocusable(true);
         addKeyListener(this);
 
-        paddleSpeed = 4 ;   // Speed of paddle
+        paddleSpeed = 4.0 ;   // Speed of paddle
 
         mu = 0.5;
 
         // Initialize a ball
-        new Ball(HEIGHT,WIDTH,20,Main.SIDE/2,Main.SIDE/2,1,-3);
+        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,1.0,-3.0);
 
 
         // Initialize players
-        playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2, 10, 50, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2, 10, 50, KeyEvent.VK_W, KeyEvent.VK_S);
-        playerT = new Player(PlayerType.T, Main.SIDE/2, (margin-10), 50, 10, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
-        playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50, 10, KeyEvent.VK_D, KeyEvent.VK_A);
+        playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2, 10.0, 50.0, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2, 10.0, 50.0, KeyEvent.VK_W, KeyEvent.VK_S);
+        playerT = new Player(PlayerType.T, Main.SIDE/2, (margin-10), 50.0, 10.0, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
+        playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50.0, 10.0, KeyEvent.VK_D, KeyEvent.VK_A);
 
         playerLScore = 3; playerRScore = 3; playerTScore = 3; playerBScore = 3;
 
@@ -77,7 +77,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         new GameState();
 
         //call step() 60 fps, its basically frequency per second
-        int fps = 60;
+        int fps = 100;
         Timer timer = new Timer(1000/fps, this);
         timer.start();
 
@@ -163,10 +163,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             g.fillOval(270, 270, 60, 60);
 
             g.setColor(Color.WHITE);
-            int leftmargin = playerL.getX();
-            int rightmargin = playerR.getX() + playerR.getWidth();
-            int topmargin = playerT.getY();
-            int bottommargin = playerB.getY() + playerB.getHeight();
+            Double leftmargin = playerL.getX();
+            Double rightmargin = playerR.getX() + playerR.getWidth();
+            Double topmargin = playerT.getY();
+            Double bottommargin = playerB.getY() + playerB.getHeight();
 
             /*
             //draw dashed line
@@ -176,10 +176,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             */
 
             //draw "goal lines" on each side
-            g.drawLine(rightmargin, 0, rightmargin, HEIGHT);
-            g.drawLine(leftmargin, 0, leftmargin, HEIGHT);
-            g.drawLine(0, topmargin, WIDTH, topmargin);
-            g.drawLine(0, bottommargin, WIDTH, bottommargin);
+            g.drawLine(rightmargin.intValue(), 0, rightmargin.intValue(), HEIGHT.intValue());
+            g.drawLine(leftmargin.intValue(), 0, leftmargin.intValue(), HEIGHT.intValue());
+            g.drawLine(0, topmargin.intValue(), WIDTH.intValue(), topmargin.intValue());
+            g.drawLine(0, bottommargin.intValue(), WIDTH.intValue(), bottommargin.intValue());
 
             /*
             //draw the scores

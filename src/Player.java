@@ -8,10 +8,10 @@ public class Player
 
     private PlayerType type;
 
-    private int playerX ;
-    private int playerY ;
-    private int playerWidth;
-    private int playerHeight;
+    private Double playerX ;
+    private Double playerY ;
+    private Double playerWidth;
+    private Double playerHeight;
     private int keyup;
     private int keydown;
 
@@ -23,7 +23,7 @@ public class Player
     private boolean isBot ;
 
 
-    public Player(PlayerType type, int playerX, int playerY, int playerWidth, int playerHeight, int keyup, int keydown){
+    public Player(PlayerType type, Double playerX, Double playerY, Double playerWidth, Double playerHeight, int keyup, int keydown){
         this.type = type;
         this.playerX = playerX;
         this.playerY = playerY;
@@ -41,7 +41,7 @@ public class Player
         switch(type){
             case L :
                 if(isBot){
-                  if(playerY > Ball.getBallY()){    // Ball is above player - move up
+                  if(this.getCenterY() > Ball.getBallCenterY()){    // Ball is above player - move up
                     if (playerY - PongPanel.paddleSpeed > 0) {
                         playerY -= PongPanel.paddleSpeed;
                     }
@@ -69,7 +69,7 @@ public class Player
 
             case R :
                 if(isBot){
-                    if(playerY > Ball.getBallY()){    // Ball is above player - move up
+                    if(this.getCenterY() > Ball.getBallCenterY()){    // Ball is above player - move up
                         if (playerY - PongPanel.paddleSpeed > 0) {
                             playerY -= PongPanel.paddleSpeed;
                         }
@@ -96,7 +96,7 @@ public class Player
 
             case T :
                 if(isBot){
-                    if (playerX > Ball.getBallX()) {    // Ball to left of player - move left
+                    if (this.getCenterX() > Ball.getBallCenterX()) {    // Ball to left of player - move left
                         if (playerX - PongPanel.paddleSpeed > 0) {
                             playerX -= PongPanel.paddleSpeed;
                         }
@@ -123,14 +123,14 @@ public class Player
 
             case B :
                 if(isBot){
-                    if (playerX > Ball.getBallX()) {    // Ball to left of player - move left
+                    if (this.getCenterX() > Ball.getBallCenterX()) {    // Ball to left of player - move left
                         if (playerX - PongPanel.paddleSpeed > 0) {
-                            playerX -= PongPanel.paddleSpeed;
+                            playerX -= (this.getCenterX() - Ball.getBallCenterX())*0.8;
                         }
                     }
                     else {
                         if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
-                            playerX += PongPanel.paddleSpeed;
+                            playerX += (Ball.getBallCenterX() - this.getCenterX())*0.8;
                         }
                     }
                 }
@@ -139,6 +139,7 @@ public class Player
                         if (playerX - PongPanel.paddleSpeed > 0) {
                             playerX -= PongPanel.paddleSpeed;
                         }
+
                     }
                     if (isUp()) {
                         if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
@@ -156,22 +157,22 @@ public class Player
         switch(type){
             case L :
                 g.setColor(Color.GREEN);
-                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                g.fillRect(playerX.intValue(), playerY.intValue(), playerWidth.intValue(), playerHeight.intValue());
                 break;
 
             case R :
                 g.setColor(Color.BLUE);
-                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                g.fillRect(playerX.intValue(), playerY.intValue(), playerWidth.intValue(), playerHeight.intValue());
                 break;
 
             case T :
                 g.setColor(Color.ORANGE);
-                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                g.fillRect(playerX.intValue(), playerY.intValue(), playerWidth.intValue(), playerHeight.intValue());
                 break;
 
             case B :
                 g.setColor(Color.PINK);
-                g.fillRect(playerX, playerY, playerWidth, playerHeight);
+                g.fillRect(playerX.intValue(), playerY.intValue(), playerWidth.intValue(), playerHeight.intValue());
                 break;
 
         }
@@ -180,15 +181,19 @@ public class Player
     }
 
 
-    public int getX(){ return playerX; }
-    public int getY(){ return playerY; }
-    public int getWidth(){ return playerWidth; }
-    public int getHeight(){ return playerHeight; }
+    public Double getX(){ return playerX; }
+    public Double getY(){ return playerY; }
+    public Double getWidth(){ return playerWidth; }
+    public Double getHeight(){ return playerHeight; }
+
+    public Double getCenterX(){ return (playerX+playerWidth); }
+    public Double getCenterY(){ return (playerY+playerHeight); }
+
     public int getkeyup(){ return keyup; }
     public int getkeydown(){ return keydown; }
 
-    public void setX(int x){ playerX = x; }
-    public void setY(int y){ playerY = y; }
+    public void setX(Double x){ playerX = x; }
+    public void setY(Double y){ playerY = y; }
     public void setUpPress(boolean b){ upPressed = b; }
     public void setDownPress(boolean b){ downPressed = b; }
     public boolean isUp(){ return upPressed; }
