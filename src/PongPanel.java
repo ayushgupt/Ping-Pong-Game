@@ -14,7 +14,7 @@ import javax.swing.*;
 
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
-    public String image_src = "C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\final.png" ;
+    public String image_src = "G:\\COP Ping Pong\\game\\src\\final.png" ;
     public static final int WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
@@ -141,7 +141,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         super.paintComponent(g);
 
 
-        g.drawImage(pinpon, 85, 80, null);
+
 
         g.setColor(Color.WHITE);
 
@@ -159,8 +159,44 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         }
         else if (playing) {
 
+            g.setColor(Color.ORANGE);
+            //g.fillRect(playerX, playerY, playerWidth, playerHeight);
+            //Bottom
+            g.fillRect(0, Main.SIDE-68 ,(Main.SIDE ), 12);
+            //Top
+            g.fillRect(0, margin-10 ,(Main.SIDE ), 10);
+            //Left
+            g.fillRect(margin-12, 0 ,12, (Main.SIDE ));
+            //Right
+            g.fillRect(Main.SIDE-45, 0 ,12, (Main.SIDE ));
+
+            g.setColor(new Color(204, 68, 0));
+            //g.fillRect(playerX, playerY, playerWidth, playerHeight);
+            //Bottom
+            g.fillRect(0, Main.SIDE-margin-18 ,(Main.SIDE ), margin-12);
+            //Top
+            g.fillRect(0, 0 ,(Main.SIDE ), margin-10);
+            //Left
+            g.fillRect(0, 0 ,margin-10, (Main.SIDE ));
+            //Right
+            g.fillRect(Main.SIDE-margin+4, 0 ,margin-10, (Main.SIDE ));
+
+            g.setColor(new Color(102, 34, 0));
+            //g.fillRect(playerX, playerY, playerWidth, playerHeight);
+            //top left
+            g.fillRect(margin-10, margin-10 ,10, 10);
+            //top right
+            g.fillRect(Main.SIDE-margin+4-10, margin-10 ,10, 12);
+            //bottom left
+            g.fillRect(margin-10, Main.SIDE-margin-30 ,10, 12);
+            //bottom right
+            g.fillRect(Main.SIDE-margin+4-10, Main.SIDE-margin-30 ,12, 12);
+
+
+
             g.setColor(Color.BLUE);
             g.fillOval(270, 270, 60, 60);
+            g.drawImage(pinpon, 85, 80, null);
 
             g.setColor(Color.WHITE);
             int leftmargin = playerL.getX();
