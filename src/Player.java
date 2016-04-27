@@ -42,12 +42,12 @@ public class Player
             case L :
                 if(isBot){
                   if(playerY > Ball.getBallY()){    // Ball is above player - move up
-                    if (playerY - PongPanel.paddleSpeed > 0) {
+                    if (playerY - PongPanel.paddleSpeed > PongPanel.margin+2) {
                         playerY -= PongPanel.paddleSpeed;
                     }
                   }
                   else {
-                      if (playerY + PongPanel.paddleSpeed + playerHeight < PongPanel.HEIGHT) {
+                      if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE-PongPanel.margin-30) {
                           playerY += PongPanel.paddleSpeed;
                       }
                   }
@@ -70,12 +70,12 @@ public class Player
             case R :
                 if(isBot){
                     if(playerY > Ball.getBallY()){    // Ball is above player - move up
-                        if (playerY - PongPanel.paddleSpeed > 0) {
+                        if (playerY - PongPanel.paddleSpeed > PongPanel.margin+2) {
                             playerY -= PongPanel.paddleSpeed;
                         }
                     }
                     else {
-                        if (playerY + PongPanel.paddleSpeed + playerHeight < PongPanel.HEIGHT) {
+                        if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE-PongPanel.margin-30) {
                             playerY += PongPanel.paddleSpeed;
                         }
                     }
@@ -97,12 +97,12 @@ public class Player
             case T :
                 if(isBot){
                     if (playerX > Ball.getBallX()) {    // Ball to left of player - move left
-                        if (playerX - PongPanel.paddleSpeed > 0) {
+                        if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
                             playerX -= PongPanel.paddleSpeed;
                         }
                     }
                     else {
-                        if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
+                        if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE-PongPanel.margin-6) {
                             playerX += PongPanel.paddleSpeed;
                         }
                     }
@@ -124,12 +124,12 @@ public class Player
             case B :
                 if(isBot){
                     if (playerX > Ball.getBallX()) {    // Ball to left of player - move left
-                        if (playerX - PongPanel.paddleSpeed > 0) {
+                        if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
                             playerX -= PongPanel.paddleSpeed;
                         }
                     }
                     else {
-                        if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
+                        if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE-PongPanel.margin-6) {
                             playerX += PongPanel.paddleSpeed;
                         }
                     }
@@ -155,22 +155,22 @@ public class Player
     public void drawPaddle(Graphics g){
         switch(type){
             case L :
-                g.setColor(Color.GREEN);
+                g.setColor(new Color(77,26,0));
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
 
             case R :
-                g.setColor(Color.BLUE);
+                g.setColor(new Color(0, 128, 43));
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
 
             case T :
-                g.setColor(Color.ORANGE);
+                g.setColor(new Color(0, 0, 153));
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
 
             case B :
-                g.setColor(Color.PINK);
+                g.setColor(new Color(204, 0, 82));
                 g.fillRect(playerX, playerY, playerWidth, playerHeight);
                 break;
 
