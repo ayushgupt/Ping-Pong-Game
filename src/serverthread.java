@@ -29,7 +29,7 @@ public class serverthread extends Thread{
 	                		Main.no_rec++ ;
 	                		
 	                	}
-	                	else if(Main.no_all_rec==Main.no_players)
+	                	else if(Main.no_all_rec==Main.no_players-1)
                     	{
                     		flag = false ;
                     	}

@@ -179,7 +179,8 @@ public class inputbox {
                               Main.ownServer = new server(Integer.parseInt(Main.all_port[0]));
                               for (int i = 1; i < Main.no_players; i++) {
 
-                                  Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
+                            	  Main.sent_client[i].close() ;
+                                 // Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
 
 
                               }

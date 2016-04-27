@@ -18,7 +18,7 @@ public class clientFirst {
 		try {
 			System.out.println(portnumber); 
 			System.out.println(hostname);   
-			Socket echoSocket = new Socket(hostname, portnumber);
+			 echoSocket = new Socket(hostname, portnumber);
 			   System.out.println(hostname);	
 			     out = new PrintWriter(echoSocket.getOutputStream(), true);
 			     
@@ -42,6 +42,7 @@ public class clientFirst {
 	public void close()
 	{
 		try {
+			out.close() ;
 			echoSocket.close() ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
