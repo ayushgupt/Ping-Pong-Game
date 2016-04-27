@@ -27,8 +27,8 @@ public class clientthread extends Thread{
 		 while(true)
 			{  String s = in.readLine() ;
 				if(!(s.equals("")))
-			    { //System.out.println("Data Received") ;
-				  //System.out.println(s) ;	
+			    { System.out.println("Data Received") ;
+				  System.out.println(s) ;	
 			      Main.data[id]= s ;
 			    }
 				
