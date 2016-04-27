@@ -11,16 +11,16 @@ import java.net.URL;
 public class Ball
 {
 
-    private static int ballX;
-    private static int ballY;
-    private static int diameter;
-    private static int ballDeltaX;
-    private static int ballDeltaY;
+    private static Double ballX;
+    private static Double ballY;
+    private static Double diameter;
+    private static Double ballDeltaX;
+    private static Double ballDeltaY;
 
-    private int h;
-    private int w;
+    private Double h;
+    private Double w;
 
-    public Ball(int arenaHeight, int arenaWidth,int diameter, int ballX, int ballY, int velX, int velY ) {
+    public Ball(Double arenaHeight, Double arenaWidth,Double diameter, Double ballX, Double ballY, Double velX, Double velY ) {
         this.h = arenaHeight;
         this.w = arenaWidth;
         this.diameter = diameter;
@@ -55,10 +55,10 @@ public class Ball
 
 
         //where will the ball be after it moves?
-        int nextBallLeft = ballX + ballDeltaX;
-        int nextBallRight = ballX + diameter + ballDeltaX;
-        int nextBallTop = ballY + ballDeltaY;
-        int nextBallBottom = ballY + diameter + ballDeltaY;
+        Double nextBallLeft = ballX + ballDeltaX;
+        Double nextBallRight = ballX + diameter + ballDeltaX;
+        Double nextBallTop = ballY + ballDeltaY;
+        Double nextBallBottom = ballY + diameter + ballDeltaY;
 
         //System.out.println(nextBallLeft+" "+nextBallRight+" "+nextBallTop+" "+nextBallBottom);
 
@@ -154,16 +154,18 @@ public class Ball
     }
 
 
-    public static int getBallX(){ return ballX; }
-    public static int getBallY(){ return ballY; }
-    public static int getBallVelX(){ return ballDeltaX; }
-    public static int getBallVelY(){ return ballDeltaY; }
+    public static Double getBallX(){ return ballX; }
+    public static Double getBallY(){ return ballY; }
+    public static Double getBallCenterX(){ return (ballX+diameter/2); }
+    public static Double getBallCenterY(){ return (ballY+diameter/2); }
+    public static Double getBallVelX(){ return ballDeltaX; }
+    public static Double getBallVelY(){ return ballDeltaY; }
 
-    public static void setX(int x){ ballX = x; }
-    public static void setY(int y){ ballY = y; }
+    public static void setX(Double x){ ballX = x; }
+    public static void setY(Double y){ ballY = y; }
 
     public static void drawBall(Graphics g){
-        g.fillOval(ballX, ballY, diameter, diameter);
+        g.fillOval(ballX.intValue(), ballY.intValue(), diameter.intValue(), diameter.intValue());
     }
 
 
