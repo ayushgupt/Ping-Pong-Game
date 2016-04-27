@@ -14,10 +14,30 @@ public class serverthread extends Thread{
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
-                out.println("true");
-
+                out.println("true") ;
+                boolean flag = true ;	
                 while (true) {
-                    out.println("some global variable");
+                   if(flag)
+                   {
+	                	if(Main.no_rec<Main.no_players-1)
+	                	{
+	                		
+	                	}
+	                	else if(Main.no_rec==Main.no_players-1)
+	                	{
+	                		out.println("all_received") ;
+	                		Main.no_rec++ ;
+	                		
+	                	}
+	                	else if(Main.no_all_rec==Main.no_players)
+                    	{
+                    		flag = false ;
+                    	}
+                   }
+                	else
+                	{
+                		out.println("some global staic variable");
+                	}
                  if(stop)
                 	 break ;
                 }

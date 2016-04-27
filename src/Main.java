@@ -39,7 +39,14 @@ public class Main{
     public static client[] final_client ;
     public static JSONObject network_info ;
     public static String jsonstr ;
+    public static Integer ownId ;  
+    public static Integer no_rec ;
+    public static Integer no_all_rec; 
+    
     public static void main(String[] args) {
+    	//initializing 
+    	no_rec =0 ; 
+    	no_all_rec = 0 ;
     	
     	//new variables here 
     	 all_port = new String[4] ;
