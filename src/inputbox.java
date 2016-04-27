@@ -1,6 +1,7 @@
-import java.awt.*;
+import java.awt.*; 
 import java.awt.event.*;
 import javax.swing.*;
+import org.json.simple.*; 
 
 public class inputbox {
 
@@ -66,24 +67,15 @@ public class inputbox {
                  public void actionPerformed(ActionEvent e) {
                 	 String ip_address = ip[3].getText();
                      int port_server = Integer.parseInt(port[3].getText());
-                     Main.sent_client[3].connect(ip_address, port_server,3) ;
+                     Main.sent_client[3].connect(ip_address, port_server) ;
                      
-                     try {
- 						Thread.sleep(1000) ;
- 					} catch (InterruptedException e1) {
- 						// TODO Auto-generated catch block
- 						e1.printStackTrace();
- 					}
+                    
                      
-                     if(Main.connected[3]) 
-                     {	 Main.num_connected++ ;
+                     
+                     	 Main.num_connected++ ;
                          statusLabel.setText("player with ip "+ip_address+" is connected");
-                     }
-                     else
-                     {
-                    	 statusLabel.setText("player with ip "+ip_address+" could not be connected. Please try again");
-                    	 
-                     }
+                         Main.assign_id[3] = 3 ;
+                     
                  }
                  
                  
@@ -105,22 +97,13 @@ public class inputbox {
                  public void actionPerformed(ActionEvent e) {
                 	 String ip_address = ip[2].getText();
                      int port_server = Integer.parseInt(port[2].getText());
-                     Main.sent_client[2].connect(ip_address, port_server,2) ;
-                     try {
- 						Thread.sleep(1000) ;
- 					} catch (InterruptedException e1) {
- 						// TODO Auto-generated catch block
- 						e1.printStackTrace();
- 					}
-                     if(Main.connected[2]) 
-                     {	Main.num_connected++ ;
-                         statusLabel.setText("player with ip "+ip_address+" is connected");
-                     }
-                     else
-                     {
-                    	 statusLabel.setText("player with ip "+ip_address+" could not be connected. Please try again");
-                    	 
-                     }
+                     Main.sent_client[2].connect(ip_address, port_server) ;
+
+                 	 
+                     Main.num_connected++ ;
+                     statusLabel.setText("player with ip "+ip_address+" is connected");
+                     Main.assign_id[2] = 2 ;
+                     
                  }
              });
             controlPanel.add(portlabel2);
@@ -140,24 +123,18 @@ public class inputbox {
                  public void actionPerformed(ActionEvent e) {
                 	 String ip_address = ip[1].getText();
                      int port_server = Integer.parseInt(port[1].getText());
-                     Main.sent_client[1].connect(ip_address, port_server,1) ;
                      
-                     try {
-						Thread.sleep(1000) ;
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-                     if(Main.connected[1]) 
-                     {
-                    	 Main.num_connected++ ;
-                         statusLabel.setText("player with ip "+ip_address+" is connected");
-                     }
-                     else
-                     {
-                    	 statusLabel.setText("player with ip "+ip_address+" could not be connected. Please try again");
-                    	 
-                     }
+                     System.out.println("working");
+                     
+                     Main.sent_client[1].connect(ip_address, port_server) ;
+                    
+                     
+
+                 	 Main.num_connected++ ;
+                     statusLabel.setText("player with ip "+ip_address+" is connected");
+                     Main.assign_id[1] = 1 ;
+                     Main.all_ip[1]= ip_address; 
+                     Main.all_port[1]= port[1].getText() ;
                  }
              });
 	        controlPanel.add(portlabel1);
@@ -167,7 +144,63 @@ public class inputbox {
 	        controlPanel.add(loginButton[1]);
 	
 	        	
-        default :
+        default : JButton start = new JButton("Start");
+        		  controlPanel.add(start) ;
+        		  start.addActionListener(new ActionListener() {
+                      public void actionPerformed(ActionEvent e) {
+                     	if(Main.num_connected==Main.no_players-1)
+                     	{ 
+                     		 Main.network_info = new JSONObject();
+                     		 
+                     		String port_arr = JsonUtils.arrToStr(Main.all_port);
+                     		String ip_arr = JsonUtils.arrToStr(Main.all_ip);
+                     		String id_arr = JsonUtils.arrToStr(Main.assign_id);
+                     		
+                     		Main.network_info.put("port",port_arr);
+                     		Main.network_info.put("ip",ip_arr);
+                     		Main.network_info.put("id",id_arr);
+                     		
+                     		Main.network_info.put("player",Main.no_players);
+                     		Main.network_info.put("bots",Main.no_bots);
+                     		
+                     		Main.jsonstr= JsonUtils.jsonToString(Main.network_info) ;
+                     		//make data in JSON format 
+                     		for(int i=1;i<Main.no_players;i++)
+                     		{
+                     			Main.sent_client[i].send();  
+                     			
+                     			//starting own server
+                     			
+                     			
+                     			
+                     		}
+                     		Main.ownServer = new server(Integer.parseInt(Main.all_port[0])) ;
+                     	   for(int i= 1; i<Main.no_players;i++)
+                     	   {
+	                     		 
+	                     		  Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;
+	                     	   
+	      						
+                     	  }
+                     	  try {
+								Thread.sleep(3000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} 
+							for(int i= 1; i <Main.no_players;i++)
+        					{
+								Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ; 
+        					}
+                     	}
+                     	else
+                     	{
+                     		System.out.println(Main.num_connected);
+                     		System.out.println(Main.no_players);
+                     		statusLabel.setText("Not all Players are connected");
+                     	}
+                      }
+                  });
         }
 
 
