@@ -13,8 +13,9 @@ import javax.swing.JTextField;
 
 public class Main{
 
-    public static final int SIDE = 600 ;
-    
+
+    public static final Double SIDE = 600.0 ;
+
     public static String side ;
     
     public static String[] data ;
@@ -100,7 +101,7 @@ public class Main{
         //adding pong panel to the centre of the layout
         frame.add(pongPanel, BorderLayout.CENTER);
         //Setting the size to 600 as declared above
-        frame.setSize(SIDE, SIDE);
+        frame.setSize(SIDE.intValue(), SIDE.intValue());
         //setting the visibility to on
         frame.setVisible(true);
         //We wont be able to resize the frame
