@@ -190,8 +190,8 @@ public class Player
     public Double getWidth(){ return playerWidth; }
     public Double getHeight(){ return playerHeight; }
 
-    public Double getCenterX(){ return (playerX+playerWidth); }
-    public Double getCenterY(){ return (playerY+playerHeight); }
+    public Double getCenterX(){ return (playerX+playerWidth/2); }
+    public Double getCenterY(){ return (playerY+playerHeight/2); }
 
     public int getkeyup(){ return keyup; }
     public int getkeydown(){ return keydown; }

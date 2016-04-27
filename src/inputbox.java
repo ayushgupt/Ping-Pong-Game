@@ -70,12 +70,13 @@ public class inputbox {
                      int port_server = Integer.parseInt(port[3].getText());
                      Main.sent_client[3].connect(ip_address, port_server) ;
                      
-                    
-                     
+
                      
                      	 Main.num_connected++ ;
                          statusLabel.setText("player with ip "+ip_address+" is connected");
                          Main.assign_id[3] = 3 ;
+                         Main.all_ip[3]= ip_address;
+                         Main.all_port[3]= port[3].getText() ;
                      
                  }
                  
@@ -104,6 +105,8 @@ public class inputbox {
                      Main.num_connected++ ;
                      statusLabel.setText("player with ip "+ip_address+" is connected");
                      Main.assign_id[2] = 2 ;
+                     Main.all_ip[2]= ip_address;
+                     Main.all_port[2]= port[2].getText() ;
                      
                  }
              });
@@ -149,61 +152,54 @@ public class inputbox {
         		  controlPanel.add(start) ;
         		  start.addActionListener(new ActionListener() {
                       public void actionPerformed(ActionEvent e) {
-                     	if(Main.num_connected==Main.no_players-1)
-                     	{ 
-                     		 Main.network_info = new JSONObject();
-                     		 Main.ownId = 0 ;  //starting id is always 0 
-                     		 
-                     		String port_arr = JsonUtils.arrToStr(Main.all_port);
-                     		String ip_arr = JsonUtils.arrToStr(Main.all_ip);
-                     		String id_arr = JsonUtils.arrToStr(Main.assign_id);
-                     		
-                     		Main.network_info.put("port",port_arr);
-                     		Main.network_info.put("ip",ip_arr);
-                     		Main.network_info.put("id",id_arr);
-                     		
-                     		Main.network_info.put("player",Main.no_players);
-                     		Main.network_info.put("bots",Main.no_bots);
-                     		
-                     		Main.jsonstr= JsonUtils.jsonToString(Main.network_info) ;
-                     		//make data in JSON format 
-                     		for(int i=1;i<Main.no_players;i++)
-                     		{
-                     			Main.sent_client[i].send();  
-                     			
-                     			//starting own server
-                     			
-                     			
-                     			
-                     		}
-                     		Main.ownServer = new server(Integer.parseInt(Main.all_port[0])) ;
-                     	   for(int i= 1; i<Main.no_players;i++)
-                     	   {
-	                     		 
-	                     		  Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;
-	                     	   
-	      						
-                     	  }
-                     	  try {
-								Thread.sleep(3000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} 
-							for(int i= 1; i <Main.no_players;i++)
-        					{
-								Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ; 
-        					}
-                     	}
-                     	else
-                     	{
-                     		System.out.println(Main.num_connected);
-                     		System.out.println(Main.no_players);
-                     		statusLabel.setText("Not all Players are connected");
-                     	}
-                     	//initializing sides
-                     	
-                     	
+                          if (Main.num_connected == Main.no_players - 1) {
+                              Main.network_info = new JSONObject();
+                              Main.ownId = 0;  //starting id is always 0
+
+                              String port_arr = JsonUtils.arrToStr(Main.all_port);
+                              String ip_arr = JsonUtils.arrToStr(Main.all_ip);
+                              String id_arr = JsonUtils.arrToStr(Main.assign_id);
+
+                              Main.network_info.put("port", port_arr);
+                              Main.network_info.put("ip", ip_arr);
+                              Main.network_info.put("id", id_arr);
+
+                              Main.network_info.put("player", Main.no_players);
+                              Main.network_info.put("bots", Main.no_bots);
+
+                              Main.jsonstr = JsonUtils.jsonToString(Main.network_info);
+                              //make data in JSON format
+                              for (int i = 1; i < Main.no_players; i++) {
+                                  Main.sent_client[i].send();
+
+                                  //starting own server
+
+
+                              }
+                              Main.ownServer = new server(Integer.parseInt(Main.all_port[0]));
+                              for (int i = 1; i < Main.no_players; i++) {
+
+                                  Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
+
+
+                              }
+                              try {
+                                  Thread.sleep(3000);
+                              } catch (InterruptedException e1) {
+                                  // TODO Auto-generated catch block
+                                  e1.printStackTrace();
+                              }
+                              for (int i = 1; i < Main.no_players; i++) {
+                                  Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
+                              }
+                          } else {
+                              System.out.println(Main.num_connected);
+                              System.out.println(Main.no_players);
+                              statusLabel.setText("Not all Players are connected");
+                          }
+                          //initializing sides
+
+
                       }
                   });
         }

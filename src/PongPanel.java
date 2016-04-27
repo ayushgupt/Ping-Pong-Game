@@ -6,15 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.*;
 
-// TODO : int to float
 // TODO : move x and y of paddles to their centres
 
 public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
-    public String image_src = "C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\final.png" ;
+    public String image_src = new File("").getAbsolutePath() +"\\src\\final.png" ;
     public static final Double WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
@@ -61,10 +61,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
 
         // Initialize players
-        playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2, 10.0, 50.0, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2, 10.0, 50.0, KeyEvent.VK_W, KeyEvent.VK_S);
-        playerT = new Player(PlayerType.T, Main.SIDE/2, (margin-10), 50.0, 10.0, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
-        playerB = new Player(PlayerType.B, Main.SIDE/2, (HEIGHT - margin), 50.0, 10.0, KeyEvent.VK_D, KeyEvent.VK_A);
+        playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2-10, 10.0, 50.0, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2-10, 10.0, 50.0, KeyEvent.VK_W, KeyEvent.VK_S);
+        playerT = new Player(PlayerType.T, Main.SIDE/2-10, (margin-10), 50.0, 10.0, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
+        playerB = new Player(PlayerType.B, Main.SIDE/2-10, (HEIGHT - margin), 50.0, 10.0, KeyEvent.VK_D, KeyEvent.VK_A);
 
         playerLScore = 3; playerRScore = 3; playerTScore = 3; playerBScore = 3;
 

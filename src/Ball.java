@@ -4,6 +4,7 @@
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Graphics;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,9 +37,8 @@ public class Ball
 			     public void run() {
 			    	 URL url=null ;
 			    	 try {
-		        			url = new URL("file:C:\\E-drive-73865609\\COP290\\Assignment3\\ass3\\src\\ball_paddle.wav");
+		        			url = new URL("C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\ball_paddle.wav");
 		        		} catch (MalformedURLException e) {
-		        			// TODO Auto-generated catch block
 		        			e.printStackTrace();
 		        		}
 		                AudioClip clip = Applet.newAudioClip(url);
@@ -46,7 +46,6 @@ public class Ball
 		        		try {
 		        			Thread.sleep(10000);
 		        		} catch (InterruptedException e) {
-		        			// TODO Auto-generated catch block
 		        			e.printStackTrace();
 		        		}
 		        		// end of test
