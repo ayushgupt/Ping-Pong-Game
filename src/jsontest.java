@@ -44,6 +44,8 @@ public class jsontest {
             System.out.println(i);
         }
 
+        GameState g = new GameState();
+        System.out.print(JsonUtils.jsonToString(g.gamestate));
 
     }
 

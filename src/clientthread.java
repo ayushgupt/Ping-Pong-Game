@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -23,7 +24,8 @@ public class clientthread extends Thread{
 			{
 				String s = in.readLine() ;
 				if(s==null){ continue; }
-				//System.out.println(s) ;
+
+				PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
 
 				if(stop)
             	 break ;

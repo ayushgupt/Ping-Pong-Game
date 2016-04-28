@@ -38,6 +38,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerB;
 
     public static Double paddleSpeed ;
+    public static Double ballvx=1.0, ballvy=-3.0;
+
 
     // Paddle specific variables
     public static Double playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
@@ -54,7 +56,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         loadImage();
         setBackground(new Color(255,0,0));
 
-        received_gamestate = new JSONObject[4];
 
         //listen to key presses
         setFocusable(true);
@@ -65,17 +66,17 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         seconds = "00";
 
         for(int i=0;i<4;i++){
-            System.out.print(Main.str_sides[i]);
+            //System.out.print(Main.str_sides[i]);
             if(Main.str_sides[i].equals("L") || Main.str_sides[i].equals("R") || Main.str_sides[i].equals("T") || Main.str_sides[i].equals("B")){
                 String curr_side = Main.str_sides[i];
                 Main.sides[i] = curr_side.charAt(0);
-                System.out.println(Main.sides[i]);
+                //System.out.println(Main.sides[i]);
             }
         }
 
 
         // Initialize a ball
-        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,1.0,-3.0);
+        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,ballvx,ballvy);
 
 
         // Initialize players
@@ -106,9 +107,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
         // initialize gamestate
         new GameState();
+        received_gamestate = new JSONObject[]{GameState.gamestate,GameState.gamestate,GameState.gamestate,GameState.gamestate};
 
         //call step() 60 fps, its basically frequency per second
-        int fps = 100;
+        int fps = 60;
         Timer timer = new Timer(1000/fps, this);
         timer.start();
 
@@ -157,9 +159,43 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             // Update ball position
             Ball.update();
 
-            // Update gamestate - TODO update after averaging received gamestates
-            GameState.update(playerL.getY(),playerR.getY(),playerT.getX(),playerB.getX(),Ball.getBallX(),Ball.getBallY());
+            /*
+            // Update gamestate after averaging received gamestates
+            received_gamestate[Main.ownId] = GameState.gamestate;
 
+            Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
+            Double sum_ballXnew=0.0, sum_ballYnew=0.0, sum_ballVXnew=0.0, sum_ballVYnew=0.0 ;
+            Double playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew ;
+            for(int i=0;i<Main.no_players;i++){
+                sum_playerLYnew += (Double)(received_gamestate[i].get("playerLY"));
+                sum_playerRYnew += (Double)(received_gamestate[i].get("playerRY"));
+                sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
+                sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
+                sum_ballXnew += (Double)(received_gamestate[i].get("ballX"));
+                sum_ballYnew += (Double)(received_gamestate[i].get("ballY"));
+                sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
+                sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
+            }
+            playerLYnew = sum_playerLYnew/Main.no_players;
+            playerRYnew = sum_playerRYnew/Main.no_players;
+            playerTXnew = sum_playerTXnew/Main.no_players;
+            playerBXnew = sum_playerBXnew/Main.no_players;
+            ballYnew = sum_ballYnew/Main.no_players;
+            ballXnew = sum_ballXnew/Main.no_players;
+            ballVYnew = sum_ballVYnew/Main.no_players;
+            ballVXnew = sum_ballVXnew/Main.no_players;
+
+            playerL.setY(playerLYnew);
+            playerR.setY(playerRYnew);
+            playerT.setY(playerTXnew);
+            playerB.setY(playerBXnew);
+            Ball.setX(ballXnew);
+            Ball.setY(ballYnew);
+            Ball.setVX(ballVXnew);
+            Ball.setVY(ballVYnew);
+
+            GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
+            */
         }
 
         //stuff has moved, tell this JPanel to repaint itself

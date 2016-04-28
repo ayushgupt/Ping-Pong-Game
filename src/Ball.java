@@ -162,6 +162,8 @@ public class Ball
 
     public static void setX(Double x){ ballX = x; }
     public static void setY(Double y){ ballY = y; }
+    public static void setVX(Double x){ ballDeltaX = x; }
+    public static void setVY(Double y){ ballDeltaY = y; }
 
     public static void drawBall(Graphics g){
         g.fillOval(ballX.intValue(), ballY.intValue(), diameter.intValue(), diameter.intValue());

@@ -36,8 +36,8 @@ public class serverthread extends Thread{
                     	}*/
                    //}
 
-
-                		out.println("some global staic variable-id:" + Main.ownId);
+                        String own_gamestate = (GameState.gamestate!=null)? JsonUtils.jsonToString(GameState.gamestate):"data not initialized";
+                		out.println(own_gamestate);
                        // break;
 
                  if(stop)

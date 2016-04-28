@@ -24,7 +24,8 @@ public class Main{
     public static int num_connected ;
     public static int id ;
     public static char[] sides = {'X','X','X','X'} ;
-    public static String[] str_sides  ; 
+    public static String[] str_sides = {"X","X","X","X"} ;
+
 
     
     //new variables assigned here 
