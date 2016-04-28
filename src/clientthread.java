@@ -26,6 +26,7 @@ public class clientthread extends Thread{
 				if(s==null){ continue; }
 
 				PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
+				System.out.println("Received from "+id+":"+PongPanel.received_gamestate[id]);
 
 				if(stop)
             	 break ;

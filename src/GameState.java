@@ -39,5 +39,9 @@ public class GameState {
     public static Double getballVX(){ return (Double)gamestate.get("ballVX"); }
     public static Double getballVY(){ return (Double)gamestate.get("ballVY"); }
 
+    public static String getString(){
+        return JsonUtils.jsonToString(gamestate);
+    }
+
 
 }

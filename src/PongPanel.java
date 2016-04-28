@@ -23,9 +23,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static final Double WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
-    private static boolean showTitleScreen = true;
-    private static boolean playing = false;
-    private static boolean gameOver = false;
+    public static boolean showTitleScreen = true;
+    public static boolean playing = false;
+    public static boolean gameOver = false;
 
     public static double mu ;
 
@@ -94,14 +94,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
 
         String chosen_side = Main.str_sides[Main.ownId];
-        switch(chosen_side){
-            case "L": playerL.isOwn = true;
+        switch(chosen_side.charAt(0)){
+            case 'L': playerL.isOwn = true;
                 break;
-            case "R": playerR.isOwn = true;
+            case 'R': playerR.isOwn = true;
                 break;
-            case "T": playerT.isOwn = true;
+            case 'T': playerT.isOwn = true;
                 break;
-            case "B": playerB.isOwn = true;
+            case 'B': playerB.isOwn = true;
                 break;
         }
 
@@ -124,7 +124,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     //The things in this are done only if the playing state is currently displayed
     public void step(){
         if(showTitleScreen){
-            setPlaying();
+            //setPlaying();
             if(seconds.equals("59")){
                 setPlaying();
             }
@@ -159,8 +159,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             // Update ball position
             Ball.update();
 
-            /*
+
             // Update gamestate after averaging received gamestates
+            GameState.update(playerL.getY(), playerR.getY(), playerT.getX(), playerB.getX(), Ball.getBallX(), Ball.getBallY(), Ball.getBallVelX(), Ball.getBallVelY());
             received_gamestate[Main.ownId] = GameState.gamestate;
 
             Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
@@ -187,15 +188,16 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             playerL.setY(playerLYnew);
             playerR.setY(playerRYnew);
-            playerT.setY(playerTXnew);
-            playerB.setY(playerBXnew);
+            playerT.setX(playerTXnew);
+            playerB.setX(playerBXnew);
             Ball.setX(ballXnew);
             Ball.setY(ballYnew);
             Ball.setVX(ballVXnew);
             Ball.setVY(ballVYnew);
 
             GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
-            */
+            System.out.println(GameState.getString());
+
         }
 
         //stuff has moved, tell this JPanel to repaint itself

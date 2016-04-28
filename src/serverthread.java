@@ -14,7 +14,8 @@ public class serverthread extends Thread{
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
-                out.println("true") ;
+                //out.println("true") ;
+
                 boolean flag = true ;	
                 while (true) {
                    /*if(flag)
@@ -35,9 +36,11 @@ public class serverthread extends Thread{
 
                     	}*/
                    //}
-
-                        String own_gamestate = (GameState.gamestate!=null)? JsonUtils.jsonToString(GameState.gamestate):"data not initialized";
-                		out.println(own_gamestate);
+                        if(PongPanel.playing){
+                            String own_gamestate = JsonUtils.jsonToString(GameState.gamestate);
+                            out.println(own_gamestate);
+                            System.out.println("Sent:"+own_gamestate);
+                        }
                        // break;
 
                  if(stop)
