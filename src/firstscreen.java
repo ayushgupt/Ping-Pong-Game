@@ -1,4 +1,6 @@
 
+
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -33,7 +35,7 @@ public class firstscreen {
 
     private void prepareGUI() {
         mainFrame = new JFrame("Initial game screen");
-        mainFrame.setSize(380, 500);
+        mainFrame.setSize(280, 500);
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -68,8 +70,8 @@ public class firstscreen {
         final JTextField no_bots_Text = new JTextField(6);
         final JTextField side0_t = new JTextField(1);
         
-        JButton loginButton = new JButton("New Game");
-        JButton startgame = new JButton("Join a Game");
+        JButton loginButton = new JButton("Initiate Connection");
+        JButton startgame = new JButton("Start Game");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
@@ -142,7 +144,13 @@ public class firstscreen {
 							Main.ownId =Main.assign_id[i] ;
 						}
 						else
-						{Main.final_client[i].connect(Main.all_ip[i],Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;  //after decoding the data 
+						{
+                            try {
+                                Thread.sleep(1500);
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+                            Main.final_client[i].connect(Main.all_ip[i],Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;  //after decoding the data
 						}
 					}
 					
@@ -171,7 +179,8 @@ public class firstscreen {
         
         controlPanel.add(playerlabel);
         controlPanel.add(playerText);
-        
+        controlPanel.add(sidelabel);
+        controlPanel.add(sideText);
         controlPanel.add(no_players);
         controlPanel.add(no_players_Text);
         controlPanel.add(no_bots);
@@ -179,8 +188,6 @@ public class firstscreen {
         controlPanel.add(side0) ;
         controlPanel.add(side0_t) ;
         controlPanel.add(loginButton);
-        controlPanel.add(sidelabel);
-        controlPanel.add(sideText);
         controlPanel.add(startgame);
         mainFrame.setVisible(true);
     }

@@ -21,20 +21,20 @@ public class clientthread extends Thread{
 		 	BufferedReader in =new BufferedReader( new InputStreamReader(socket.getInputStream()));
 
 		 while(true)
-<<<<<<< HEAD
-			{  String s = in.readLine() ;
-				
-				if(s==null)
-					continue ;
-				//System.out.println(s) ;
-=======
 			{
-				String s = in.readLine() ;
-				if(s==null){ continue; }
+				try {
+					String s = in.readLine();
+					if (s == null) {
+						continue;
+					}
 
-				PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
+					PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
+					//System.out.println("Received from " + id + ":" + PongPanel.received_gamestate[id]);
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
 
->>>>>>> 2666a8d9eb595f23c1c4bdf060c87d3173c6efb1
 				if(stop)
             	 break ;
 			}

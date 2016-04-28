@@ -58,12 +58,12 @@ public class Player
 
                 else {
                   if (isUp()) {
-                      if (playerY - PongPanel.paddleSpeed > 0) {
+                      if (playerY - PongPanel.paddleSpeed > PongPanel.margin+2) {
                           playerY -= PongPanel.paddleSpeed;
                       }
                   }
                   if (isDown()) {
-                      if (playerY + PongPanel.paddleSpeed + playerHeight < PongPanel.HEIGHT) {
+                      if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE-PongPanel.margin-30) {
                           playerY += PongPanel.paddleSpeed;
                       }
                   }
@@ -86,12 +86,12 @@ public class Player
                 }
                 else {
                     if (isUp()) {
-                        if (playerY - PongPanel.paddleSpeed > 0) {
+                        if (playerY - PongPanel.paddleSpeed > PongPanel.margin+2) {
                             playerY -= PongPanel.paddleSpeed;
                         }
                     }
                     if (isDown()) {
-                        if (playerY + PongPanel.paddleSpeed + playerHeight < PongPanel.HEIGHT) {
+                        if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE-PongPanel.margin-30) {
                             playerY += PongPanel.paddleSpeed;
                         }
                     }
@@ -114,12 +114,12 @@ public class Player
                 }
                 else {
                     if (isDown()) {
-                        if (playerX - PongPanel.paddleSpeed > 0) {
+                        if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
                             playerX -= PongPanel.paddleSpeed;
                         }
                     }
                     if (isUp()) {
-                        if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
+                        if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE-PongPanel.margin-6) {
                             playerX += PongPanel.paddleSpeed;
                         }
                     }
@@ -142,13 +142,13 @@ public class Player
                 }
                 else {
                     if (isDown()) {
-                        if (playerX - PongPanel.paddleSpeed > 0) {
+                        if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
                             playerX -= PongPanel.paddleSpeed;
                         }
 
                     }
                     if (isUp()) {
-                        if (playerX + PongPanel.paddleSpeed + playerWidth < PongPanel.WIDTH) {
+                        if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE-PongPanel.margin-6) {
                             playerX += PongPanel.paddleSpeed;
                         }
                     }

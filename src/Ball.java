@@ -123,7 +123,7 @@ public class Ball
 
 
                 ballDeltaY *= -1;
-                t1.start();
+                // t1.start();
             }
         }
 
@@ -142,7 +142,7 @@ public class Ball
             }
             else {
                 ballDeltaY *= -1;
-                t1.start() ;
+               // t1.start() ;
             }
         }
 

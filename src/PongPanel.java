@@ -23,9 +23,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static final Double WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
-    private static boolean showTitleScreen = true;
-    private static boolean playing = false;
-    private static boolean gameOver = false;
+    public static boolean showTitleScreen = true;
+    public static boolean playing = false;
+    public static boolean gameOver = false;
 
     public static double mu ;
 
@@ -38,7 +38,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerB;
 
     public static Double paddleSpeed ;
-    public static Double ballvx=1.0, ballvy=-3.0;
+    public static Double ballvx=1.0*Main.no_players, ballvy=-3.0*Main.no_players;
 
 
     // Paddle specific variables
@@ -48,6 +48,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     private String seconds;
     public static JSONObject[] received_gamestate;
+
+    private boolean[] sign;
+    private boolean[] oldsign;
 
     private Image pinpon;
     // PongPanel constructor
@@ -61,7 +64,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         setFocusable(true);
         addKeyListener(this);
 
-        paddleSpeed = 4.0 ;   // Speed of paddle
+        paddleSpeed = 4.0*Main.no_players ;   // Speed of paddle
         mu = 0.5;
         seconds = "00";
 
@@ -77,6 +80,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
         // Initialize a ball
         new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,ballvx,ballvy);
+
+        boolean ball_sign = (ballvx*ballvy)>0;
+        sign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
+        oldsign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
 
 
         // Initialize players
@@ -94,14 +101,14 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
 
         String chosen_side = Main.str_sides[Main.ownId];
-        switch(chosen_side){
-            case "L": playerL.isOwn = true;
+        switch(chosen_side.charAt(0)){
+            case 'L': playerL.isOwn = true;
                 break;
-            case "R": playerR.isOwn = true;
+            case 'R': playerR.isOwn = true;
                 break;
-            case "T": playerT.isOwn = true;
+            case 'T': playerT.isOwn = true;
                 break;
-            case "B": playerB.isOwn = true;
+            case 'B': playerB.isOwn = true;
                 break;
         }
 
@@ -124,7 +131,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     //The things in this are done only if the playing state is currently displayed
     public void step(){
         if(showTitleScreen){
-            setPlaying();
+            //setPlaying();
             if(seconds.equals("59")){
                 setPlaying();
             }
@@ -159,43 +166,86 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             // Update ball position
             Ball.update();
 
-            /*
+
             // Update gamestate after averaging received gamestates
+            GameState.update(playerL.getY(), playerR.getY(), playerT.getX(), playerB.getX(), Ball.getBallX(), Ball.getBallY(), Ball.getBallVelX(), Ball.getBallVelY());
             received_gamestate[Main.ownId] = GameState.gamestate;
 
             Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
             Double sum_ballXnew=0.0, sum_ballYnew=0.0, sum_ballVXnew=0.0, sum_ballVYnew=0.0 ;
-            Double playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew ;
+            Double playerLYnew = playerL.getY(), playerRYnew = playerR.getY(), playerTXnew = playerT.getX(), playerBXnew = playerB.getX();
+            Double ballXnew = Ball.getBallX(), ballYnew = Ball.getBallY(), ballVXnew = Ball.getBallVelX(), ballVYnew = Ball.getBallVelY();
+
+            // Average states of bots
             for(int i=0;i<Main.no_players;i++){
                 sum_playerLYnew += (Double)(received_gamestate[i].get("playerLY"));
                 sum_playerRYnew += (Double)(received_gamestate[i].get("playerRY"));
                 sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
                 sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
+            }
+            if(playerL.isBot()){ playerLYnew = sum_playerLYnew/Main.no_players; }
+            if(playerR.isBot()){ playerRYnew = sum_playerRYnew/Main.no_players; }
+            if(playerT.isBot()){ playerTXnew = sum_playerTXnew/Main.no_players; }
+            if(playerB.isBot()){ playerBXnew = sum_playerBXnew/Main.no_players; }
+
+
+            // Update paddles by data received from owner players
+            for(int i=0;i<Main.no_players;i++){
+                switch(Main.sides[i]){
+                    case 'L': playerLYnew = (Double)(received_gamestate[i].get("playerLY"));
+                        break;
+                    case 'R': playerRYnew = (Double)(received_gamestate[i].get("playerRY"));
+                        break;
+                    case 'T': playerTXnew = (Double)(received_gamestate[i].get("playerTX"));
+                        break;
+                    case 'B': playerBXnew = (Double)(received_gamestate[i].get("playerBX"));
+                        break;
+                }
+            }
+
+            // Update ball by giving preference to direction change
+            // check if all ball variables have same sign
+
+            for(int i=0;i<Main.no_players;i++){
                 sum_ballXnew += (Double)(received_gamestate[i].get("ballX"));
                 sum_ballYnew += (Double)(received_gamestate[i].get("ballY"));
                 sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
                 sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
             }
-            playerLYnew = sum_playerLYnew/Main.no_players;
-            playerRYnew = sum_playerRYnew/Main.no_players;
-            playerTXnew = sum_playerTXnew/Main.no_players;
-            playerBXnew = sum_playerBXnew/Main.no_players;
-            ballYnew = sum_ballYnew/Main.no_players;
             ballXnew = sum_ballXnew/Main.no_players;
-            ballVYnew = sum_ballVYnew/Main.no_players;
+            ballYnew = sum_ballYnew/Main.no_players;
             ballVXnew = sum_ballVXnew/Main.no_players;
+            ballVYnew = sum_ballVYnew/Main.no_players;
 
-            playerL.setY(playerLYnew);
-            playerR.setY(playerRYnew);
-            playerT.setY(playerTXnew);
-            playerB.setY(playerBXnew);
+
+            for(int i=0;i<Main.no_players;i++){
+                sign[i] = ((Double)(received_gamestate[i].get("ballVX"))*(Double)(received_gamestate[i].get("ballVY")))>0;
+                if(oldsign[i]!=sign[i]){
+                    ballXnew = (Double)(received_gamestate[i].get("ballX"));
+                    ballYnew = (Double)(received_gamestate[i].get("ballY"));
+                    ballVXnew = (Double)(received_gamestate[i].get("ballVX"));
+                    ballVYnew = (Double)(received_gamestate[i].get("ballVY"));
+                }
+            }
+
+
+
+            if(!playerL.isOwn){ playerL.setY(playerLYnew); }
+            if(!playerR.isOwn){ playerR.setY(playerRYnew); }
+            if(!playerT.isOwn){ playerT.setX(playerTXnew); }
+            if(!playerB.isOwn){ playerB.setX(playerBXnew); }
             Ball.setX(ballXnew);
             Ball.setY(ballYnew);
             Ball.setVX(ballVXnew);
             Ball.setVY(ballVYnew);
 
             GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
-            */
+            //System.out.println(GameState.getString());
+
+            for(int i=0;i<Main.no_players;i++){
+                oldsign[i]=sign[i];
+            }
+
         }
 
         //stuff has moved, tell this JPanel to repaint itself

@@ -24,7 +24,7 @@ public class Main{
     public static int num_connected ;
     public static int id ;
     public static char[] sides = {'X','X','X','X'} ;
-    public static String[] str_sides = {"X","X","X","X"} ;
+    public static String[] str_sides ;
 
 
     
@@ -54,12 +54,13 @@ public class Main{
     	 all_port = new String[4] ;
     	 all_ip = new String[4] ;
     	 assign_id = new Integer[4] ;
-    	 str_sides = new String[4] ; 
+    	 str_sides = new String[4] ;
     	 for(int i=0;i<4;i++)
-    	 {	str_sides[i]="X" ;
+    	 {
     		 all_port[i] ="" ;
     		 all_ip[i] ="" ;
     		 assign_id[i] = -1 ;
+			 str_sides[i]="X";
     	 }
     	 firstpacket = false ;
     	 
