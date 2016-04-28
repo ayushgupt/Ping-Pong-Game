@@ -56,7 +56,7 @@ public class Main{
     	 assign_id = new Integer[4] ;
     	 str_sides = new String[4] ;
     	 for(int i=0;i<4;i++)
-    	 {
+    	 {	str_sides[i]="X" ;
     		 all_port[i] ="" ;
     		 all_ip[i] ="" ;
     		 assign_id[i] = -1 ;

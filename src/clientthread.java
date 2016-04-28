@@ -21,6 +21,13 @@ public class clientthread extends Thread{
 		 	BufferedReader in =new BufferedReader( new InputStreamReader(socket.getInputStream()));
 
 		 while(true)
+<<<<<<< HEAD
+			{  String s = in.readLine() ;
+				
+				if(s==null)
+					continue ;
+				//System.out.println(s) ;
+=======
 			{
 				try {
 					String s = in.readLine();
@@ -35,6 +42,7 @@ public class clientthread extends Thread{
 					ex.printStackTrace();
 				}
 
+>>>>>>> 2666a8d9eb595f23c1c4bdf060c87d3173c6efb1
 				if(stop)
             	 break ;
 			}
