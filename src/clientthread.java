@@ -41,7 +41,7 @@ public class clientthread extends Thread{
 				
 				if(s==null)
 					continue ;
-				System.out.println(s) ;
+				//System.out.println(s) ;
 				if(stop)
             	 break ;
 			}
