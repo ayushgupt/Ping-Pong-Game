@@ -32,12 +32,14 @@ public class serverthread extends Thread{
 	                	else if(Main.no_all_rec==Main.no_players-1)
                     	{
                     		flag = false ;
-                    	}
-                   }*/
-                	
-                		out.println("some global staic variable"+Main.ownId);
-                		
-                	
+
+                    	}*/
+                   //}
+
+                        String own_gamestate = (GameState.gamestate!=null)? JsonUtils.jsonToString(GameState.gamestate):"data not initialized";
+                		out.println(own_gamestate);
+                       // break;
+
                  if(stop)
                 	 break ;
                 }

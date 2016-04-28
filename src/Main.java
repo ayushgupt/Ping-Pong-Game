@@ -24,7 +24,8 @@ public class Main{
     public static int num_connected ;
     public static int id ;
     public static char[] sides = {'X','X','X','X'} ;
-    public static String[] str_sides  ; 
+    public static String[] str_sides = {"X","X","X","X"} ;
+
 
     
     //new variables assigned here 
@@ -93,14 +94,12 @@ public class Main{
         //declaring Data string array
     	data = new String[3] ; 
 
-        //declaring client array
-    
 
-        
-        
-        
-        //showing player screen and bot screen
+
+		//showing player screen and bot screen
         firstscreen  swingControlDemo = new firstscreen();      
         swingControlDemo.showTextFieldDemo();
+
+
     }
 }

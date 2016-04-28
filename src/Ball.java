@@ -37,7 +37,7 @@ public class Ball
 			     public void run() {
 			    	 URL url=null ;
 			    	 try {
-		        			url = new URL("C:\\Users\\quantumcoder\\Desktop\\iitd\\Sem4\\cop290\\assignment3\\Game\\src\\ball_paddle.wav");
+		        			url = new URL(new File("").getAbsolutePath() +"\\src\\ball_paddle.wav");
 		        		} catch (MalformedURLException e) {
 		        			e.printStackTrace();
 		        		}
@@ -162,6 +162,8 @@ public class Ball
 
     public static void setX(Double x){ ballX = x; }
     public static void setY(Double y){ ballY = y; }
+    public static void setVX(Double x){ ballDeltaX = x; }
+    public static void setVY(Double y){ ballDeltaY = y; }
 
     public static void drawBall(Graphics g){
         g.fillOval(ballX.intValue(), ballY.intValue(), diameter.intValue(), diameter.intValue());

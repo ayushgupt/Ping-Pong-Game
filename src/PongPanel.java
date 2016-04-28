@@ -1,12 +1,17 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.*;
 
@@ -22,7 +27,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     private static boolean playing = false;
     private static boolean gameOver = false;
 
-
     public static double mu ;
 
     public static final Double margin = 40.0;
@@ -34,30 +38,45 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerB;
 
     public static Double paddleSpeed ;
+    public static Double ballvx=1.0, ballvy=-3.0;
+
 
     // Paddle specific variables
     public static Double playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
     public static Double playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
 
+    private String seconds;
+    public static JSONObject[] received_gamestate;
+
     private Image pinpon;
     // PongPanel constructor
     public PongPanel(){
 
         loadImage();
-
         setBackground(new Color(255,0,0));
+
 
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
 
         paddleSpeed = 4.0 ;   // Speed of paddle
-
         mu = 0.5;
+        seconds = "00";
+
+        for(int i=0;i<4;i++){
+            //System.out.print(Main.str_sides[i]);
+            if(Main.str_sides[i].equals("L") || Main.str_sides[i].equals("R") || Main.str_sides[i].equals("T") || Main.str_sides[i].equals("B")){
+                String curr_side = Main.str_sides[i];
+                Main.sides[i] = curr_side.charAt(0);
+                //System.out.println(Main.sides[i]);
+            }
+        }
+
 
         // Initialize a ball
-        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,1.0,-3.0);
+        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,ballvx,ballvy);
 
 
         // Initialize players
@@ -68,16 +87,30 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
         playerLScore = 3; playerRScore = 3; playerTScore = 3; playerBScore = 3;
 
+        // assign sides to players and bots
         if (!(new String(Main.sides).contains("L"))) { playerL.setBot(); }
         if (!(new String(Main.sides).contains("T"))) { playerT.setBot(); }
         if (!(new String(Main.sides).contains("R"))) { playerR.setBot(); }
         if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
 
+        String chosen_side = Main.str_sides[Main.ownId];
+        switch(chosen_side){
+            case "L": playerL.isOwn = true;
+                break;
+            case "R": playerR.isOwn = true;
+                break;
+            case "T": playerT.isOwn = true;
+                break;
+            case "B": playerB.isOwn = true;
+                break;
+        }
+
         // initialize gamestate
         new GameState();
+        received_gamestate = new JSONObject[]{GameState.gamestate,GameState.gamestate,GameState.gamestate,GameState.gamestate};
 
         //call step() 60 fps, its basically frequency per second
-        int fps = 100;
+        int fps = 60;
         Timer timer = new Timer(1000/fps, this);
         timer.start();
 
@@ -90,6 +123,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     //The things in this are done only if the playing state is currently displayed
     public void step(){
+        if(showTitleScreen){
+            setPlaying();
+            if(seconds.equals("59")){
+                setPlaying();
+            }
+        }
         //System.out.println(getHeight()+" "+getWidth());
         //System.out.println(ball.getBallVelX() + " " + ball.getBallVelX());
         //System.out.println(ball.getBallX() + " " + ball.getBallX());
@@ -120,9 +159,43 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             // Update ball position
             Ball.update();
 
-            // Update gamestate - TODO update after averaging received gamestates
-            GameState.update(playerL.getY(),playerR.getY(),playerT.getX(),playerB.getX(),Ball.getBallX(),Ball.getBallY());
+            /*
+            // Update gamestate after averaging received gamestates
+            received_gamestate[Main.ownId] = GameState.gamestate;
 
+            Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
+            Double sum_ballXnew=0.0, sum_ballYnew=0.0, sum_ballVXnew=0.0, sum_ballVYnew=0.0 ;
+            Double playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew ;
+            for(int i=0;i<Main.no_players;i++){
+                sum_playerLYnew += (Double)(received_gamestate[i].get("playerLY"));
+                sum_playerRYnew += (Double)(received_gamestate[i].get("playerRY"));
+                sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
+                sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
+                sum_ballXnew += (Double)(received_gamestate[i].get("ballX"));
+                sum_ballYnew += (Double)(received_gamestate[i].get("ballY"));
+                sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
+                sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
+            }
+            playerLYnew = sum_playerLYnew/Main.no_players;
+            playerRYnew = sum_playerRYnew/Main.no_players;
+            playerTXnew = sum_playerTXnew/Main.no_players;
+            playerBXnew = sum_playerBXnew/Main.no_players;
+            ballYnew = sum_ballYnew/Main.no_players;
+            ballXnew = sum_ballXnew/Main.no_players;
+            ballVYnew = sum_ballVYnew/Main.no_players;
+            ballVXnew = sum_ballVXnew/Main.no_players;
+
+            playerL.setY(playerLYnew);
+            playerR.setY(playerRYnew);
+            playerT.setY(playerTXnew);
+            playerB.setY(playerBXnew);
+            Ball.setX(ballXnew);
+            Ball.setY(ballYnew);
+            Ball.setVX(ballVXnew);
+            Ball.setVY(ballVYnew);
+
+            GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
+            */
         }
 
         //stuff has moved, tell this JPanel to repaint itself
@@ -155,7 +228,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 
-            g.drawString("Press 'P' to play.", 175, 400);
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            String time = sdf.format(cal.getTime());
+            int second_start = time.lastIndexOf(':');
+            seconds = time.substring(second_start+1);
+            g.drawString(time,175,400);
+
+
+            //g.drawString("Press 'P' to play.", 175, 400);
         }
         else if (playing) {
 
@@ -261,11 +342,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 playerT.setDownPress(false);
                 playerB.setUpPress(false);
                 playerB.setDownPress(false);
-                setPlaying();
+                //setPlaying();
             }
         }
         else if(playing){
-          if (!playerL.isBot()){
+          if (!playerL.isBot() && playerL.isOwn){
               if (e.getKeyCode() == playerL.getkeyup()) {
                   playerL.setUpPress(true);
               }
@@ -273,7 +354,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                   playerL.setDownPress(true);
               }
             }
-          if (!playerR.isBot()){
+          if (!playerR.isBot() && playerR.isOwn){
               if (e.getKeyCode() == playerR.getkeyup()) {
                   playerR.setUpPress(true);
               }
@@ -281,7 +362,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                   playerR.setDownPress(true);
               }
           }
-          if (!playerT.isBot()){
+          if (!playerT.isBot() && playerT.isOwn){
               if (e.getKeyCode() == playerT.getkeyup()) {
                   playerT.setUpPress(true);
               }
@@ -289,7 +370,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                   playerT.setDownPress(true);
               }
           }
-          if (!playerB.isBot()){
+          if (!playerB.isBot() && playerB.isOwn){
               if (e.getKeyCode() == playerB.getkeyup()) {
                   playerB.setUpPress(true);
               }
@@ -319,7 +400,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public void keyReleased(KeyEvent e) {
         if (playing) {
-          if (!playerL.isBot()){
+          if (!playerL.isBot() && playerL.isOwn){
               if (e.getKeyCode() == playerL.getkeyup()) {
                   playerL.setUpPress(false);
               }
@@ -327,7 +408,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                   playerL.setDownPress(false);
               }
           }
-          if (!playerR.isBot()){
+          if (!playerR.isBot() && playerR.isOwn){
             if (e.getKeyCode() == playerR.getkeyup()) {
                 playerR.setUpPress(false);
             }
@@ -335,7 +416,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 playerR.setDownPress(false);
             }
           }
-          if (!playerT.isBot()){
+          if (!playerT.isBot() && playerT.isOwn){
             if (e.getKeyCode() == playerT.getkeyup()) {
                 playerT.setUpPress(false);
             }
@@ -343,7 +424,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 playerT.setDownPress(false);
             }
           }
-          if (!playerB.isBot()){
+          if (!playerB.isBot() && playerB.isOwn){
             if (e.getKeyCode() == playerB.getkeyup()) {
                 playerB.setUpPress(false);
             }

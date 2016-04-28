@@ -125,7 +125,8 @@ public class firstscreen {
 					Main.no_players =  Integer.parseInt(t.get("player").toString()) ;
 					Main.no_bots = Integer.parseInt(t.get("bots").toString()) ;
 					Main.str_sides = JsonUtils.stringToStrarr((String)t.get("side")) ;
-					
+					System.out.println((String)t.get("side"));
+
 					temp.close() ;
 					serverSocket.close() ;
 					//start making other connections
