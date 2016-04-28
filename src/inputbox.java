@@ -212,11 +212,13 @@ public class inputbox {
 
 
                               for (int i = 1; i < Main.no_players; i++) {
+
                                   try {
                                       Thread.sleep(1000);
                                   } catch (InterruptedException e1) {
                                       e1.printStackTrace();
                                   }
+
                                   Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
 
                               }

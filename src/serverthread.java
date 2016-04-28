@@ -16,7 +16,8 @@ public class serverthread extends Thread{
             
                 //out.println("true") ;
 
-                boolean flag = true ;	
+               int i = 0 ;
+                boolean flag = true ;
                 while (true) {
                    /*if(flag)
                    {
@@ -37,8 +38,14 @@ public class serverthread extends Thread{
                     	}*/
                    //}
                         if(PongPanel.playing){
-                            String own_gamestate = JsonUtils.jsonToString(GameState.gamestate);
+
+                        	if(i%22==0)
+                            {String own_gamestate = JsonUtils.jsonToString(GameState.gamestate);
                             out.println(own_gamestate);
+                            }
+                        	i= i%22 ;
+                        	i++ ;
+
                             //System.out.println("Sent:"+own_gamestate);
                         }
                        // break;

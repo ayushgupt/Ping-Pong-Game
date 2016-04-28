@@ -78,7 +78,7 @@ public class Ball
             else {
 
                 ballDeltaX *= (-1);
-     			t1.start();
+     			//t1.start();
 
 
 
@@ -102,7 +102,7 @@ public class Ball
             }
             else {
                 ballDeltaX *= -1;
-                t1.start() ;
+                //t1.start() ;
             }
         }
 
