@@ -63,10 +63,12 @@ public class firstscreen {
         final JLabel sidelabel = new JLabel("Own Port", JLabel.CENTER);
         JLabel no_players = new JLabel("Number of Players", JLabel.CENTER);
         JLabel no_bots = new JLabel("Number of Bots", JLabel.CENTER);
+        JLabel side0 = new JLabel("SIDE: ", JLabel.CENTER);
         final JTextField playerText = new JTextField(6);
         final JTextField sideText = new JTextField(6);
         final JTextField no_players_Text = new JTextField(6);
         final JTextField no_bots_Text = new JTextField(6);
+        final JTextField side0_t = new JTextField(1);
         
         JButton loginButton = new JButton("Initiate Connection");
         JButton startgame = new JButton("Start Game");
@@ -78,6 +80,7 @@ public class firstscreen {
              Main.no_players = Integer.parseInt(no_players_Text.getText()); 
              Main.no_bots = Integer.parseInt(no_bots_Text.getText());
              Main.assign_id[0] = 0 ;
+             Main.str_sides[0]= side0_t.getText() ;
              
              //switching off old Frame
              mainFrame.setVisible(false);
@@ -123,7 +126,7 @@ public class firstscreen {
 					Main.all_ip = JsonUtils.stringToStrarr((String)t.get("ip")) ;
 					Main.no_players =  Integer.parseInt(t.get("player").toString()) ;
 					Main.no_bots = Integer.parseInt(t.get("bots").toString()) ;
-				
+					Main.str_sides = JsonUtils.stringToStrarr((String)t.get("side")) ;
 					
 					temp.close() ;
 					serverSocket.close() ;
@@ -144,6 +147,22 @@ public class firstscreen {
 						}
 					}
 					
+					JFrame frame = new JFrame("Pong");
+                    //Exiting on pressing close
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setLayout(new BorderLayout());
+                    PongPanel pongPanel = new PongPanel();
+                    //adding pong panel to the centre of the layout
+                    frame.add(pongPanel, BorderLayout.CENTER);
+                    //Setting the size to 600 as declared above
+                    frame.setSize(Main.SIDE.intValue(), Main.SIDE.intValue());
+                    //setting the visibility to on
+                    frame.setVisible(true);
+                    //We wont be able to resize the frame
+                    frame.setResizable(false);
+                    
+                    mainFrame.setVisible(false) ;
+					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -159,6 +178,8 @@ public class firstscreen {
         controlPanel.add(no_players_Text);
         controlPanel.add(no_bots);
         controlPanel.add(no_bots_Text);
+        controlPanel.add(side0) ;
+        controlPanel.add(side0_t) ;
         controlPanel.add(loginButton);
         controlPanel.add(startgame);
         mainFrame.setVisible(true);
