@@ -24,7 +24,7 @@ public class Main{
     public static int num_connected ;
     public static int id ;
     public static char[] sides = {'X','X','X','X'} ;
-    
+    public static String[] str_sides  ; 
 
     
     //new variables assigned here 
@@ -53,6 +53,7 @@ public class Main{
     	 all_port = new String[4] ;
     	 all_ip = new String[4] ;
     	 assign_id = new Integer[4] ;
+    	 str_sides = new String[4] ; 
     	 for(int i=0;i<4;i++)
     	 {
     		 all_port[i] ="" ;
@@ -92,31 +93,12 @@ public class Main{
         //declaring Data string array
     	data = new String[3] ; 
 
-        //declaring client array
-    
 
-        //Giving name to Jframe
-        JFrame frame = new JFrame("Pong");
-        //Exiting on pressing close
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        
-
-        frame.setLayout(new BorderLayout());
-
-        PongPanel pongPanel = new PongPanel();
-        //adding pong panel to the centre of the layout
-        frame.add(pongPanel, BorderLayout.CENTER);
-        //Setting the size to 600 as declared above
-        frame.setSize(SIDE.intValue(), SIDE.intValue());
-        //setting the visibility to on
-        frame.setVisible(true);
-        //We wont be able to resize the frame
-        frame.setResizable(false);
-        
-        
-        //showing player screen and bot screen
+		//showing player screen and bot screen
         firstscreen  swingControlDemo = new firstscreen();      
         swingControlDemo.showTextFieldDemo();
+
+
     }
 }

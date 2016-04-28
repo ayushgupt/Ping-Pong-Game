@@ -32,6 +32,7 @@ public class serverthread extends Thread{
 	                	else if(Main.no_all_rec==Main.no_players-1)
                     	{
                     		flag = false ;
+
                     	}*/
                    //}
 

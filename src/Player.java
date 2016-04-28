@@ -21,6 +21,7 @@ public class Player
     private boolean downPressed ;
 
     private boolean isBot ;
+    public boolean isOwn;
 
 
     public Player(PlayerType type, Double playerX, Double playerY, Double playerWidth, Double playerHeight, int keyup, int keydown){
@@ -35,6 +36,7 @@ public class Player
         downPressed = false;
         //score = 0;
         isBot = false;
+        isOwn = false;
     }
 
     public void update(PlayerType type){

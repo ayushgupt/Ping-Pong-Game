@@ -2,6 +2,7 @@
 import java.awt.*; 
 import java.awt.event.*;
 import javax.swing.*;
+
 import org.json.simple.*; 
 
 public class inputbox {
@@ -51,7 +52,7 @@ public class inputbox {
         JButton[] loginButton= new  JButton[4] ;
         final JTextField[] port= new  JTextField[4] ;
         final JTextField[] ip= new  JTextField[4] ;
-
+        final JTextField[] side = new JTextField[4] ;
 
         
         switch(Main.no_players-1)
@@ -61,7 +62,10 @@ public class inputbox {
             JLabel  ipLabel3 = new JLabel("IP"+": ", JLabel.CENTER);
             port[3] = new JTextField(6);
             ip[3] = new JTextField(6);
-
+            
+            JLabel side3 = new JLabel("SIDE: ", JLabel.RIGHT);
+            side[3] = new JTextField(1) ;
+            
              loginButton[3] = new JButton("Connect");
              
              loginButton[3].addActionListener(new ActionListener() {
@@ -77,6 +81,8 @@ public class inputbox {
                          Main.assign_id[3] = 3 ;
                          Main.all_ip[3]= ip_address;
                          Main.all_port[3]= port[3].getText() ;
+                         
+                         Main.str_sides[3] = side[3].getText() ;
                      
                  }
                  
@@ -87,13 +93,18 @@ public class inputbox {
             controlPanel.add(port[3]);
             controlPanel.add(ipLabel3);
             controlPanel.add(ip[3]);
+            controlPanel.add(side3) ;
+            controlPanel.add(side[3]) ;
             controlPanel.add(loginButton[3]);
         case 2 :
             JLabel  portlabel2= new JLabel("PORT"+": ", JLabel.RIGHT);
             JLabel  ipLabel2 = new JLabel("IP"+": ", JLabel.CENTER);
             port[2] = new JTextField(6);
             ip[2] = new JTextField(6);
-
+            JLabel side2 = new JLabel("SIDE: ", JLabel.RIGHT);
+            side[2] = new JTextField(1) ;
+           
+            
              loginButton[2] = new JButton("Connect");
              loginButton[2].addActionListener(new ActionListener() {
                  public void actionPerformed(ActionEvent e) {
@@ -107,6 +118,7 @@ public class inputbox {
                      Main.assign_id[2] = 2 ;
                      Main.all_ip[2]= ip_address;
                      Main.all_port[2]= port[2].getText() ;
+                     Main.str_sides[2] = side[2].getText() ;
                      
                  }
              });
@@ -114,6 +126,8 @@ public class inputbox {
             controlPanel.add(port[2]);
             controlPanel.add(ipLabel2);
             controlPanel.add(ip[2]);
+            controlPanel.add(side2) ;
+            controlPanel.add(side[2]) ;
             controlPanel.add(loginButton[2]);
         	
         case 1 :
@@ -121,6 +135,9 @@ public class inputbox {
 	        JLabel  ipLabel1 = new JLabel("IP"+": ", JLabel.CENTER);
 	        port[1] = new JTextField(6);
 	        ip[1] = new JTextField(6);
+	        JLabel side1 = new JLabel("SIDE: ", JLabel.RIGHT);
+            side[1] = new JTextField(1) ;
+           
 	
 	         loginButton[1] = new JButton("Connect");
 	         loginButton[1].addActionListener(new ActionListener() {
@@ -139,12 +156,15 @@ public class inputbox {
                      Main.assign_id[1] = 1 ;
                      Main.all_ip[1]= ip_address; 
                      Main.all_port[1]= port[1].getText() ;
+                     Main.str_sides[1] = side[1].getText() ;
                  }
              });
 	        controlPanel.add(portlabel1);
 	        controlPanel.add(port[1]);
 	        controlPanel.add(ipLabel1);
 	        controlPanel.add(ip[1]);
+	        controlPanel.add(side1) ;
+            controlPanel.add(side[1]) ;
 	        controlPanel.add(loginButton[1]);
 	
 	        	
@@ -159,11 +179,13 @@ public class inputbox {
                               String port_arr = JsonUtils.arrToStr(Main.all_port);
                               String ip_arr = JsonUtils.arrToStr(Main.all_ip);
                               String id_arr = JsonUtils.arrToStr(Main.assign_id);
-
+                              String sides_arr = JsonUtils.arrToStr(Main.str_sides) ;
+                              
                               Main.network_info.put("port", port_arr);
                               Main.network_info.put("ip", ip_arr);
                               Main.network_info.put("id", id_arr);
-
+                              Main.network_info.put("side", sides_arr) ;
+                              
                               Main.network_info.put("player", Main.no_players);
                               Main.network_info.put("bots", Main.no_bots);
 
@@ -176,7 +198,10 @@ public class inputbox {
 
 
                               }
+                              
                               Main.ownServer = new server(Integer.parseInt(Main.all_port[0]));
+
+                              //System.out
                               for (int i = 1; i < Main.no_players; i++) {
 
                             	  Main.sent_client[i].close() ;
@@ -185,10 +210,29 @@ public class inputbox {
 
                               }
 
+
                               for (int i = 1; i < Main.no_players; i++) {
                                  // thread.sleep();
                                   Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
+
                               }
+                              mainFrame.setVisible(false) ;
+                            //Giving name to Jframe
+                              JFrame frame = new JFrame("Pong");
+                              //Exiting on pressing close
+                              frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                              frame.setLayout(new BorderLayout());
+
+                              PongPanel pongPanel = new PongPanel();
+                              //adding pong panel to the centre of the layout
+                              frame.add(pongPanel, BorderLayout.CENTER);
+                              //Setting the size to 600 as declared above
+                              frame.setSize(Main.SIDE.intValue(), Main.SIDE.intValue());
+                              //setting the visibility to on
+                              frame.setVisible(true);
+                              //We wont be able to resize the frame
+                              frame.setResizable(false);
+                              
                           } else {
                               System.out.println(Main.num_connected);
                               System.out.println(Main.no_players);

@@ -8,7 +8,9 @@ public class client {
 	public int portnumber ;
 	public String data ;
 	public boolean connected ;
+
 	Socket echoSocket;
+
 	public client()
 	{
 		
