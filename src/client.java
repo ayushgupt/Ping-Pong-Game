@@ -8,6 +8,7 @@ public class client {
 	public int portnumber ;
 	public String data ;
 	public boolean connected ;
+	Socket echoSocket;
 	public client()
 	{
 		
@@ -18,7 +19,7 @@ public class client {
 		hostname = ho ;
 		portnumber = po ; 
 		try {
-			    Socket echoSocket = new Socket(hostname, portnumber);
+			     echoSocket = new Socket(hostname, portnumber);
 			    	
 			    new clientthread(echoSocket, id).start();
 			     

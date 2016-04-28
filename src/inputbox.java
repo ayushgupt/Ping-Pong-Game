@@ -184,13 +184,9 @@ public class inputbox {
 
 
                               }
-                              try {
-                                  Thread.sleep(3000);
-                              } catch (InterruptedException e1) {
-                                  // TODO Auto-generated catch block
-                                  e1.printStackTrace();
-                              }
+
                               for (int i = 1; i < Main.no_players; i++) {
+                                 // thread.sleep();
                                   Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
                               }
                           } else {

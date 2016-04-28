@@ -1,12 +1,17 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.*;
 
@@ -21,7 +26,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     private static boolean showTitleScreen = true;
     private static boolean playing = false;
     private static boolean gameOver = false;
-
 
     public static double mu ;
 
@@ -40,21 +44,25 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static Double playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
     public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
 
+    private String seconds;
+    public static JSONObject[] received_gamestate;
+
     private Image pinpon;
     // PongPanel constructor
     public PongPanel(){
 
         loadImage();
-
         setBackground(new Color(255,0,0));
+
+        received_gamestate = new JSONObject[4];
 
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
 
         paddleSpeed = 4.0 ;   // Speed of paddle
-
         mu = 0.5;
+        seconds = "00";
 
         // Initialize a ball
         new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,1.0,-3.0);
@@ -90,6 +98,11 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     //The things in this are done only if the playing state is currently displayed
     public void step(){
+        if(showTitleScreen){
+            if(seconds.equals("59")){
+                setPlaying();
+            }
+        }
         //System.out.println(getHeight()+" "+getWidth());
         //System.out.println(ball.getBallVelX() + " " + ball.getBallVelX());
         //System.out.println(ball.getBallX() + " " + ball.getBallX());
@@ -155,7 +168,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 
-            g.drawString("Press 'P' to play.", 175, 400);
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            String time = sdf.format(cal.getTime());
+            int second_start = time.lastIndexOf(':');
+            seconds = time.substring(second_start+1);
+            g.drawString(time,175,400);
+
+
+            //g.drawString("Press 'P' to play.", 175, 400);
         }
         else if (playing) {
 
@@ -261,7 +282,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 playerT.setDownPress(false);
                 playerB.setUpPress(false);
                 playerB.setDownPress(false);
-                setPlaying();
+                //setPlaying();
             }
         }
         else if(playing){

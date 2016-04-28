@@ -17,22 +17,30 @@ public class clientthread extends Thread{
 	 public void run()
 	 { try {
 		 BufferedReader in =new BufferedReader( new InputStreamReader(socket.getInputStream()));
-		 String confirmation =in.readLine() ;
-		 if(confirmation.equals("true"))
-		 {	
-			 Main.no_rec++ ;
-			 System.out.println("1 received");
-		 }
-		  confirmation =in.readLine() ;
-		 if(confirmation.equals("all_received"))
-		 {
-			 Main.no_all_rec++ ;
-			 System.out.println(Main.no_all_rec);
-		 }
+
+		 boolean flag = true;
+
+		 /*while (flag){
+			 String confirmation =in.readLine() ;
+			 if(confirmation==null){ continue; }
+			 if(confirmation.equals("true"))
+			 {
+				 Main.no_rec++ ;
+				 System.out.println("1 received");
+			 }
+			 // confirmation =in.readLine() ;
+			 if(confirmation.equals("all_received"))
+			 {
+				 Main.no_all_rec++ ; flag = false;
+				 System.out.println("all received:"+Main.no_all_rec);
+			 }
+		 }*/
+
 		 
 		 while(true)
 			{  String s = in.readLine() ;
-				System.out.println("received"+id) ;
+				if(s==null){ continue; }
+				System.out.println(s) ;
 				
 			    if(stop)
             	 break ;

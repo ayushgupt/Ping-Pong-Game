@@ -17,7 +17,7 @@ public class serverthread extends Thread{
                 out.println("true") ;
                 boolean flag = true ;	
                 while (true) {
-                   if(flag)
+                   /*if(flag)
                    {
 	                	if(Main.no_rec<Main.no_players-1)
 	                	{
@@ -32,12 +32,13 @@ public class serverthread extends Thread{
 	                	else if(Main.no_all_rec==Main.no_players-1)
                     	{
                     		flag = false ;
-                    	}
-                   }
-                	else
-                	{
-                		out.println("some global staic variable");
-                	}
+                    	}*/
+                   //}
+
+
+                		out.println("some global staic variable-id:" + Main.ownId);
+                       // break;
+
                  if(stop)
                 	 break ;
                 }
