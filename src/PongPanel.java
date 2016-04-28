@@ -38,7 +38,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerB;
 
     public static Double paddleSpeed ;
-    public static Double ballvx=1.0, ballvy=-3.0;
+    public static Double ballvx=1.0 * Main.no_players, ballvy=-3.0 * Main.no_players;
 
 
     // Paddle specific variables
@@ -64,7 +64,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         setFocusable(true);
         addKeyListener(this);
 
-        paddleSpeed = 4.0 ;   // Speed of paddle
+        paddleSpeed = 4.0 * Main.no_players ;   // Speed of paddle
         mu = 0.5;
         seconds = "00";
 

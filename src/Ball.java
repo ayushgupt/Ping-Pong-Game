@@ -37,7 +37,7 @@ public class Ball
 			     public void run() {
 			    	 URL url=null ;
 			    	 try {
-		        			url = new URL(new File("").getAbsolutePath() +"\\src\\ball_paddle.wav");
+		        			url = new URL("file:".concat(new File("").getAbsolutePath().concat("\\src\\ball_paddle.wav")));
 		        		} catch (MalformedURLException e) {
 		        			e.printStackTrace();
 		        		}
