@@ -37,11 +37,11 @@ public class serverthread extends Thread{
                     	}*/
                    //}
                         if(PongPanel.playing){
-                        	if(i%5==0)
+                        	if(i%22==0)
                             {String own_gamestate = JsonUtils.jsonToString(GameState.gamestate);
                             out.println(own_gamestate);
                             }
-                        	i= i%5 ;
+                        	i= i%22 ;
                         	i++ ;
                             //System.out.println("Sent:"+own_gamestate);
                         }

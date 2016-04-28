@@ -38,7 +38,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public Player playerB;
 
     public static Double paddleSpeed ;
-    public static Double ballvx=1.0*Main.no_players, ballvy=-3.0*Main.no_players;
+    public static Double ballvx=1.0, ballvy=-3.0;
 
 
     // Paddle specific variables
@@ -64,7 +64,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         setFocusable(true);
         addKeyListener(this);
 
-        paddleSpeed = 4.0*Main.no_players ;   // Speed of paddle
+        paddleSpeed = 4.0 ;   // Speed of paddle
         mu = 0.5;
         seconds = "00";
 
@@ -132,7 +132,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public void step(){
         if(showTitleScreen){
             //setPlaying();
-            if(seconds.equals("59")){
+            if(seconds.equals("59")||seconds.equals("19")||seconds.equals("39")){
                 setPlaying();
             }
         }
@@ -183,10 +183,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
                 sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
             }
-            if(playerL.isBot()){ playerLYnew = sum_playerLYnew/Main.no_players; }
-            if(playerR.isBot()){ playerRYnew = sum_playerRYnew/Main.no_players; }
-            if(playerT.isBot()){ playerTXnew = sum_playerTXnew/Main.no_players; }
-            if(playerB.isBot()){ playerBXnew = sum_playerBXnew/Main.no_players; }
+            if(playerL.isBot()){ playerLYnew = playerL.getY(); }
+            if(playerR.isBot()){ playerRYnew = playerR.getY() ; }
+            if(playerT.isBot()){ playerTXnew = playerT.getX(); }
+            if(playerB.isBot()){ playerBXnew = playerB.getX() ; }
 
 
             // Update paddles by data received from owner players
@@ -212,11 +212,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
                 sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
             }
-            ballXnew = sum_ballXnew/Main.no_players;
-            ballYnew = sum_ballYnew/Main.no_players;
+            
+            //ballXnew = sum_ballXnew/Main.no_players+;
+            //ballYnew = sum_ballYnew/Main.no_players;
             ballVXnew = sum_ballVXnew/Main.no_players;
             ballVYnew = sum_ballVYnew/Main.no_players;
-
+            
+            ballXnew = sum_ballXnew/Main.no_players+ballVXnew*2;
+            ballYnew = sum_ballYnew/Main.no_players+ballVYnew*2;
+            
 
             for(int i=0;i<Main.no_players;i++){
                 sign[i] = ((Double)(received_gamestate[i].get("ballVX"))*(Double)(received_gamestate[i].get("ballVY")))>0;
@@ -228,8 +232,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 }
             }
 
-
-
+            ballVXnew =Ball.getBallVelX() ;
+            ballVYnew =Ball.getBallVelY() ;
+            
             if(!playerL.isOwn){ playerL.setY(playerLYnew); }
             if(!playerR.isOwn){ playerR.setY(playerRYnew); }
             if(!playerT.isOwn){ playerT.setX(playerTXnew); }
@@ -357,7 +362,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             // draw ball
             Ball.drawBall(g);
-
+            paintscores(g,playerLScore,playerRScore,playerTScore,playerLScore) ;
             //draw the paddles
             playerL.drawPaddle(g);
             playerR.drawPaddle(g);
@@ -375,6 +380,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
             g.drawString("Press space to restart.", 150, 400);
+     
+        	
         }
     }
 
@@ -448,6 +455,36 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         }
     }
 
+    public static void paintscores(Graphics g,int l,int r,int u,int d)
+    {
+       String ls=Integer.toString(l);
+       String rs=Integer.toString(r);
+       String us=Integer.toString(u);
+       String ds=Integer.toString(d);
+
+       g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+
+       g.setColor(Color.white);
+
+       //top
+       g.drawString("LIFE:"+us, 230, 25);
+       //bottom
+       g.drawString("LIFE:"+ds, 230, 570);
+       //left
+       ///g.drawString("", 5, 200);
+       g.drawString("L", 5, 225);
+       g.drawString("I", 5, 250);
+       g.drawString("F", 5, 275);
+       g.drawString("E", 5, 300);
+       g.drawString(ls, 5, 335);
+       //left
+       //g.drawString("L", 570, 200);
+       g.drawString("L", 570, 225);
+       g.drawString("I", 570, 250);
+       g.drawString("F", 570, 275);
+       g.drawString("E", 570, 300);
+       g.drawString(rs, 570, 335);
+    }
     public void keyReleased(KeyEvent e) {
         if (playing) {
           if (!playerL.isBot() && playerL.isOwn){
