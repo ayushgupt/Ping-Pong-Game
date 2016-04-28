@@ -39,7 +39,7 @@ public class serverthread extends Thread{
                         if(PongPanel.playing){
                             String own_gamestate = JsonUtils.jsonToString(GameState.gamestate);
                             out.println(own_gamestate);
-                            System.out.println("Sent:"+own_gamestate);
+                            //System.out.println("Sent:"+own_gamestate);
                         }
                        // break;
 

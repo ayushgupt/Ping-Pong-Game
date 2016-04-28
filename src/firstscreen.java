@@ -144,7 +144,13 @@ public class firstscreen {
 							Main.ownId =Main.assign_id[i] ;
 						}
 						else
-						{Main.final_client[i].connect(Main.all_ip[i],Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;  //after decoding the data 
+						{
+                            try {
+                                Thread.sleep(1500);
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+                            Main.final_client[i].connect(Main.all_ip[i],Integer.parseInt(Main.all_port[i]), Main.assign_id[i]) ;  //after decoding the data
 						}
 					}
 					

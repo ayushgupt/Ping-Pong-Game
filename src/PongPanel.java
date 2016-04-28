@@ -49,6 +49,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     private String seconds;
     public static JSONObject[] received_gamestate;
 
+    private boolean[] sign;
+    private boolean[] oldsign;
+
     private Image pinpon;
     // PongPanel constructor
     public PongPanel(){
@@ -77,6 +80,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
         // Initialize a ball
         new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,ballvx,ballvy);
+
+        boolean ball_sign = (ballvx*ballvy)>0;
+        sign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
+        oldsign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
 
 
         // Initialize players
@@ -166,37 +173,78 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
             Double sum_ballXnew=0.0, sum_ballYnew=0.0, sum_ballVXnew=0.0, sum_ballVYnew=0.0 ;
-            Double playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew ;
+            Double playerLYnew = playerL.getY(), playerRYnew = playerR.getY(), playerTXnew = playerT.getX(), playerBXnew = playerB.getX();
+            Double ballXnew = Ball.getBallX(), ballYnew = Ball.getBallY(), ballVXnew = Ball.getBallVelX(), ballVYnew = Ball.getBallVelY();
+
+            // Average states of bots
             for(int i=0;i<Main.no_players;i++){
                 sum_playerLYnew += (Double)(received_gamestate[i].get("playerLY"));
                 sum_playerRYnew += (Double)(received_gamestate[i].get("playerRY"));
                 sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
                 sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
+            }
+            if(playerL.isBot()){ playerLYnew = sum_playerLYnew/Main.no_players; }
+            if(playerR.isBot()){ playerRYnew = sum_playerRYnew/Main.no_players; }
+            if(playerT.isBot()){ playerTXnew = sum_playerTXnew/Main.no_players; }
+            if(playerB.isBot()){ playerBXnew = sum_playerBXnew/Main.no_players; }
+
+
+            // Update paddles by data received from owner players
+            for(int i=0;i<Main.no_players;i++){
+                switch(Main.sides[i]){
+                    case 'L': playerLYnew = (Double)(received_gamestate[i].get("playerLY"));
+                        break;
+                    case 'R': playerRYnew = (Double)(received_gamestate[i].get("playerRY"));
+                        break;
+                    case 'T': playerTXnew = (Double)(received_gamestate[i].get("playerTX"));
+                        break;
+                    case 'B': playerBXnew = (Double)(received_gamestate[i].get("playerBX"));
+                        break;
+                }
+            }
+
+            // Update ball by giving preference to direction change
+            // check if all ball variables have same sign
+
+            for(int i=0;i<Main.no_players;i++){
                 sum_ballXnew += (Double)(received_gamestate[i].get("ballX"));
                 sum_ballYnew += (Double)(received_gamestate[i].get("ballY"));
                 sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
                 sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
             }
-            playerLYnew = sum_playerLYnew/Main.no_players;
-            playerRYnew = sum_playerRYnew/Main.no_players;
-            playerTXnew = sum_playerTXnew/Main.no_players;
-            playerBXnew = sum_playerBXnew/Main.no_players;
-            ballYnew = sum_ballYnew/Main.no_players;
             ballXnew = sum_ballXnew/Main.no_players;
-            ballVYnew = sum_ballVYnew/Main.no_players;
+            ballYnew = sum_ballYnew/Main.no_players;
             ballVXnew = sum_ballVXnew/Main.no_players;
+            ballVYnew = sum_ballVYnew/Main.no_players;
 
-            playerL.setY(playerLYnew);
-            playerR.setY(playerRYnew);
-            playerT.setX(playerTXnew);
-            playerB.setX(playerBXnew);
+
+            for(int i=0;i<Main.no_players;i++){
+                sign[i] = ((Double)(received_gamestate[i].get("ballVX"))*(Double)(received_gamestate[i].get("ballVY")))>0;
+                if(oldsign[i]!=sign[i]){
+                    ballXnew = (Double)(received_gamestate[i].get("ballX"));
+                    ballYnew = (Double)(received_gamestate[i].get("ballY"));
+                    ballVXnew = (Double)(received_gamestate[i].get("ballVX"));
+                    ballVYnew = (Double)(received_gamestate[i].get("ballVY"));
+                }
+            }
+
+
+
+            if(!playerL.isOwn){ playerL.setY(playerLYnew); }
+            if(!playerR.isOwn){ playerR.setY(playerRYnew); }
+            if(!playerT.isOwn){ playerT.setX(playerTXnew); }
+            if(!playerB.isOwn){ playerB.setX(playerBXnew); }
             Ball.setX(ballXnew);
             Ball.setY(ballYnew);
             Ball.setVX(ballVXnew);
             Ball.setVY(ballVYnew);
 
             GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
-            System.out.println(GameState.getString());
+            //System.out.println(GameState.getString());
+
+            for(int i=0;i<Main.no_players;i++){
+                oldsign[i]=sign[i];
+            }
 
         }
 

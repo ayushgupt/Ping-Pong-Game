@@ -178,7 +178,6 @@ public class Player
 
             case B :
                 g.setColor(new Color(204, 0, 82));
-                System.out.println(playerX.intValue() +","+ playerY.intValue());
                 g.fillRect(playerX.intValue(), playerY.intValue(), playerWidth.intValue(), playerHeight.intValue());
                 break;
 

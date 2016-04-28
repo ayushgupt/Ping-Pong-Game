@@ -22,11 +22,18 @@ public class clientthread extends Thread{
 
 		 while(true)
 			{
-				String s = in.readLine() ;
-				if(s==null){ continue; }
+				try {
+					String s = in.readLine();
+					if (s == null) {
+						continue;
+					}
 
-				PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
-				System.out.println("Received from "+id+":"+PongPanel.received_gamestate[id]);
+					PongPanel.received_gamestate[id] = JsonUtils.stringToJson(s);
+					//System.out.println("Received from " + id + ":" + PongPanel.received_gamestate[id]);
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
 
 				if(stop)
             	 break ;

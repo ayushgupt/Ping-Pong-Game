@@ -216,8 +216,8 @@ public class inputbox {
                                   Main.final_client[i].connect(Main.all_ip[i], Integer.parseInt(Main.all_port[i]), Main.assign_id[i]);
 
                               }
-                              mainFrame.setVisible(false) ;
-                            //Giving name to Jframe
+
+                              //Giving name to Jframe
                               JFrame frame = new JFrame("Pong");
                               //Exiting on pressing close
                               frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,6 +232,8 @@ public class inputbox {
                               frame.setVisible(true);
                               //We wont be able to resize the frame
                               frame.setResizable(false);
+
+                              mainFrame.setVisible(false) ;
                               
                           } else {
                               System.out.println(Main.num_connected);
