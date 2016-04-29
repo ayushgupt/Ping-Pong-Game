@@ -248,13 +248,13 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
                 sum_ballVYnew += (Double) (received_gamestate[i].get("ballVY"));
             }
 
-            // ballXnew = sum_ballXnew/Main.no_players;
-            // ballYnew = sum_ballYnew/Main.no_players;
+            ballXnew = sum_ballXnew/Main.no_players;
+            ballYnew = sum_ballYnew/Main.no_players;
             ballVXnew = sum_ballVXnew / Main.no_players;
             ballVYnew = sum_ballVYnew / Main.no_players;
 
-            ballXnew = sum_ballXnew / Main.no_players + ballVXnew * (Main.no_players - 1);
-            ballYnew = sum_ballYnew / Main.no_players + ballVYnew * (Main.no_players - 1);
+            // ballXnew = sum_ballXnew / Main.no_players + ballVXnew * (Main.no_players - 1);
+            // ballYnew = sum_ballYnew / Main.no_players + ballVYnew * (Main.no_players - 1);
 
             for (int i = 0; i < Main.no_players; i++) {
                 sign[i] = ((Double) (received_gamestate[i].get("ballVX")) * (Double) (received_gamestate[i].get("ballVY"))) > 0;
