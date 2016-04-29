@@ -1,0 +1,7 @@
+1.We have not used any Jxta Library and the Socket programming implementation is done fully by us.
+2.The difficulty level can be set in the code and the option is not given to the user.
+3.We did not implement the Following things
+(a) Multiple Balls
+(b) Resizing of the paddle width
+(c) Special Powers
+
