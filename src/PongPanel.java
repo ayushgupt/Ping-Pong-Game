@@ -580,8 +580,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
     }
 
 
-    public static void setOver() {
+    public static void setOver(String side) {
         System.out.println("Game over");
+        System.out.println("Player "+side+" won");
         playing = false;
         gameOver = true;
     }

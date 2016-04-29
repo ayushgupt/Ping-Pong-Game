@@ -157,8 +157,17 @@ public class Ball {
             }
         }
 
-        if (PongPanel.playerL.checklost && PongPanel.playerR.checklost && PongPanel.playerT.checklost && PongPanel.playerB.checklost) {
-            PongPanel.setOver();
+        if (!PongPanel.playerL.checklost && PongPanel.playerR.checklost && PongPanel.playerT.checklost && PongPanel.playerB.checklost) {
+            PongPanel.setOver("L");
+        }
+        if (PongPanel.playerL.checklost && !PongPanel.playerR.checklost && PongPanel.playerT.checklost && PongPanel.playerB.checklost) {
+            PongPanel.setOver("R");
+        }
+        if (PongPanel.playerL.checklost && PongPanel.playerR.checklost && !PongPanel.playerT.checklost && PongPanel.playerB.checklost) {
+            PongPanel.setOver("T");
+        }
+        if (PongPanel.playerL.checklost && PongPanel.playerR.checklost && PongPanel.playerT.checklost && !PongPanel.playerB.checklost) {
+            PongPanel.setOver("B");
         }
 
 
