@@ -1,6 +1,7 @@
 /**
  * Created by quantumcoder on 4/17/2016.
  */
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -16,10 +17,9 @@ import java.util.Calendar;
 import javax.swing.*;
 
 
+public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
-public class PongPanel extends JPanel implements ActionListener, KeyListener{
-
-    public String image_src = new File("").getAbsolutePath() +"\\src\\final.png" ;
+    public String image_src = new File("").getAbsolutePath() + "\\src\\final.png";
     public static final Double WIDTH = Main.SIDE - 6, HEIGHT = Main.SIDE - 29;
 
     //the three screens whose visibility can be shown
@@ -27,26 +27,24 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     public static boolean playing = false;
     public static boolean gameOver = false;
 
-    public static double mu ;
+    public static double mu;
 
     public static final Double margin = 40.0;
 
     // public Ball ball;
-    public Player playerL;
-    public Player playerR;
-    public Player playerT;
-    public Player playerB;
+    public static Player playerL;
+    public static Player playerR;
+    public static Player playerT;
+    public static Player playerB;
 
-    public static Double paddleSpeed ;
-
-    public static Double ballvx=1.0 , ballvy=-3.0 ;
-
+    public static Double paddleSpeed;
+    public static Double ballvx = 1.0, ballvy = -3.0;
 
 
     // Paddle specific variables
-    public static Double playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom ;
-    public static Double playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight ;
-    public static int playerLScore, playerRScore , playerTScore, playerBScore ;   // score actually measures life
+    public static Double playerLRight, playerLTop, playerLBottom, playerRLeft, playerRTop, playerRBottom;
+    public static Double playerTBottom, playerTLeft, playerTRight, playerBTop, playerBLeft, playerBRight;
+    public static int playerLScore, playerRScore, playerTScore, playerBScore;   // score actually measures life
 
     private String seconds;
     public static JSONObject[] received_gamestate;
@@ -55,25 +53,27 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     private boolean[] oldsign;
 
     private Image pinpon;
+
     // PongPanel constructor
-    public PongPanel(){
+    public PongPanel() {
 
         loadImage();
-        setBackground(new Color(255,0,0));
+        setBackground(new Color(255, 0, 0));
 
 
         //listen to key presses
         setFocusable(true);
         addKeyListener(this);
 
-        paddleSpeed = 4.0  ;   // Speed of paddle
+
+        paddleSpeed = 4.0;   // Speed of paddle
 
         mu = 0.5;
         seconds = "00";
 
-        for(int i=0;i<4;i++){
+        for (int i = 0; i < 4; i++) {
             //System.out.print(Main.str_sides[i]);
-            if(Main.str_sides[i].equals("L") || Main.str_sides[i].equals("R") || Main.str_sides[i].equals("T") || Main.str_sides[i].equals("B")){
+            if (Main.str_sides[i].equals("L") || Main.str_sides[i].equals("R") || Main.str_sides[i].equals("T") || Main.str_sides[i].equals("B")) {
                 String curr_side = Main.str_sides[i];
                 Main.sides[i] = curr_side.charAt(0);
                 //System.out.println(Main.sides[i]);
@@ -82,60 +82,76 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
 
         // Initialize a ball
-        new Ball(HEIGHT,WIDTH,20.0,Main.SIDE/2,Main.SIDE/2,ballvx,ballvy);
+        new Ball(HEIGHT, WIDTH, 20.0, Main.SIDE / 2, Main.SIDE / 2, ballvx, ballvy);
 
-        boolean ball_sign = (ballvx*ballvy)>0;
-        sign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
-        oldsign = new boolean[]{ball_sign,ball_sign,ball_sign,ball_sign};
+        boolean ball_sign = (ballvx * ballvy) > 0;
+        sign = new boolean[]{ball_sign, ball_sign, ball_sign, ball_sign};
+        oldsign = new boolean[]{ball_sign, ball_sign, ball_sign, ball_sign};
 
 
         // Initialize players
-        playerL = new Player(PlayerType.L, (margin-10), Main.SIDE/2-10, 10.0, 50.0, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE/2-10, 10.0, 50.0, KeyEvent.VK_W, KeyEvent.VK_S);
-        playerT = new Player(PlayerType.T, Main.SIDE/2-10, (margin-10), 50.0, 10.0, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
-        playerB = new Player(PlayerType.B, Main.SIDE/2-10, (HEIGHT - margin), 50.0, 10.0, KeyEvent.VK_D, KeyEvent.VK_A);
+        playerL = new Player(PlayerType.L, (margin - 10), Main.SIDE / 2 - 10, 10.0, 50.0, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+        playerR = new Player(PlayerType.R, (WIDTH - margin), Main.SIDE / 2 - 10, 10.0, 50.0, KeyEvent.VK_W, KeyEvent.VK_S);
+        playerT = new Player(PlayerType.T, Main.SIDE / 2 - 10, (margin - 10), 50.0, 10.0, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
+        playerB = new Player(PlayerType.B, Main.SIDE / 2 - 10, (HEIGHT - margin), 50.0, 10.0, KeyEvent.VK_D, KeyEvent.VK_A);
 
-        playerLScore = 300; playerRScore = 300; playerTScore = 300; playerBScore = 300;
+        playerLScore = 3;
+        playerRScore = 3;
+        playerTScore = 3;
+        playerBScore = 3;
 
         // assign sides to players and bots
-        if (!(new String(Main.sides).contains("L"))) { playerL.setBot(); }
-        if (!(new String(Main.sides).contains("T"))) { playerT.setBot(); }
-        if (!(new String(Main.sides).contains("R"))) { playerR.setBot(); }
-        if (!(new String(Main.sides).contains("B"))) { playerB.setBot(); }
+        if (!(new String(Main.sides).contains("L"))) {
+            playerL.setBot();
+        }
+        if (!(new String(Main.sides).contains("T"))) {
+            playerT.setBot();
+        }
+        if (!(new String(Main.sides).contains("R"))) {
+            playerR.setBot();
+        }
+        if (!(new String(Main.sides).contains("B"))) {
+            playerB.setBot();
+        }
 
         String chosen_side = Main.str_sides[Main.ownId];
-        switch(chosen_side.charAt(0)){
-            case 'L': playerL.isOwn = true;
+        switch (chosen_side.charAt(0)) {
+            case 'L':
+                playerL.isOwn = true;
                 break;
-            case 'R': playerR.isOwn = true;
+            case 'R':
+                playerR.isOwn = true;
                 break;
-            case 'T': playerT.isOwn = true;
+            case 'T':
+                playerT.isOwn = true;
                 break;
-            case 'B': playerB.isOwn = true;
+            case 'B':
+                playerB.isOwn = true;
                 break;
         }
 
         // initialize gamestate
         new GameState();
-        received_gamestate = new JSONObject[]{GameState.gamestate,GameState.gamestate,GameState.gamestate,GameState.gamestate};
+        received_gamestate = new JSONObject[]{GameState.gamestate, GameState.gamestate, GameState.gamestate, GameState.gamestate};
 
         //call step() 60 fps, its basically frequency per second
         int fps = 60;
-        Timer timer = new Timer(1000/fps, this);
+        Timer timer = new Timer(1000 / fps, this);
         timer.start();
 
     }
 
-//This is the function that is called again and again and it calls step function
-    public void actionPerformed(ActionEvent e){
+    //This is the function that is called again and again and it calls step function
+    public void actionPerformed(ActionEvent e) {
         step();
     }
 
     //The things in this are done only if the playing state is currently displayed
-    public void step(){
-        if(showTitleScreen){
+    public void step() {
+        if (showTitleScreen) {
             //setPlaying();
-            if(seconds.equals("19") || seconds.equals("39") || seconds.equals("59")){
+
+            if (seconds.equals("19") || seconds.equals("39") || seconds.equals("59")) {
                 setPlaying();
             }
         }
@@ -143,7 +159,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
         //System.out.println(ball.getBallVelX() + " " + ball.getBallVelX());
         //System.out.println(ball.getBallX() + " " + ball.getBallX());
         //System.out.println(playerLScore + " " + playerRScore + " " + playerTScore + " " + playerBScore );
-        if(playing){
+        if (playing) {
             // update player positions
             playerL.update(PlayerType.L);
             playerR.update(PlayerType.R);
@@ -174,34 +190,46 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             GameState.update(playerL.getY(), playerR.getY(), playerT.getX(), playerB.getX(), Ball.getBallX(), Ball.getBallY(), Ball.getBallVelX(), Ball.getBallVelY());
             received_gamestate[Main.ownId] = GameState.gamestate;
 
-            Double sum_playerLYnew =0.0, sum_playerRYnew=0.0, sum_playerTXnew=0.0, sum_playerBXnew=0.0;
-            Double sum_ballXnew=0.0, sum_ballYnew=0.0, sum_ballVXnew=0.0, sum_ballVYnew=0.0 ;
+            Double sum_playerLYnew = 0.0, sum_playerRYnew = 0.0, sum_playerTXnew = 0.0, sum_playerBXnew = 0.0;
+            Double sum_ballXnew = 0.0, sum_ballYnew = 0.0, sum_ballVXnew = 0.0, sum_ballVYnew = 0.0;
             Double playerLYnew = playerL.getY(), playerRYnew = playerR.getY(), playerTXnew = playerT.getX(), playerBXnew = playerB.getX();
             Double ballXnew = Ball.getBallX(), ballYnew = Ball.getBallY(), ballVXnew = Ball.getBallVelX(), ballVYnew = Ball.getBallVelY();
 
             // Average states of bots
-            for(int i=0;i<Main.no_players;i++){
-                sum_playerLYnew += (Double)(received_gamestate[i].get("playerLY"));
-                sum_playerRYnew += (Double)(received_gamestate[i].get("playerRY"));
-                sum_playerTXnew += (Double)(received_gamestate[i].get("playerTX"));
-                sum_playerBXnew += (Double)(received_gamestate[i].get("playerBX"));
+            for (int i = 0; i < Main.no_players; i++) {
+                sum_playerLYnew += (Double) (received_gamestate[i].get("playerLY"));
+                sum_playerRYnew += (Double) (received_gamestate[i].get("playerRY"));
+                sum_playerTXnew += (Double) (received_gamestate[i].get("playerTX"));
+                sum_playerBXnew += (Double) (received_gamestate[i].get("playerBX"));
             }
-            if(playerL.isBot()){ playerLYnew = playerL.getY(); }
-            if(playerR.isBot()){ playerRYnew = playerR.getY(); }
-            if(playerT.isBot()){ playerTXnew = playerT.getX(); }
-            if(playerB.isBot()){ playerBXnew = playerB.getX(); }
+            if (playerL.isBot()) {
+                playerLYnew = playerL.getY();
+            }
+            if (playerR.isBot()) {
+                playerRYnew = playerR.getY();
+            }
+            if (playerT.isBot()) {
+                playerTXnew = playerT.getX();
+            }
+            if (playerB.isBot()) {
+                playerBXnew = playerB.getX();
+            }
 
 
             // Update paddles by data received from owner players
-            for(int i=0;i<Main.no_players;i++){
-                switch(Main.sides[i]){
-                    case 'L': playerLYnew = (Double)(received_gamestate[i].get("playerLY"));
+            for (int i = 0; i < Main.no_players; i++) {
+                switch (Main.sides[i]) {
+                    case 'L':
+                        playerLYnew = (Double) (received_gamestate[i].get("playerLY"));
                         break;
-                    case 'R': playerRYnew = (Double)(received_gamestate[i].get("playerRY"));
+                    case 'R':
+                        playerRYnew = (Double) (received_gamestate[i].get("playerRY"));
                         break;
-                    case 'T': playerTXnew = (Double)(received_gamestate[i].get("playerTX"));
+                    case 'T':
+                        playerTXnew = (Double) (received_gamestate[i].get("playerTX"));
                         break;
-                    case 'B': playerBXnew = (Double)(received_gamestate[i].get("playerBX"));
+                    case 'B':
+                        playerBXnew = (Double) (received_gamestate[i].get("playerBX"));
                         break;
                 }
             }
@@ -210,39 +238,48 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             // check if all ball variables have same sign
 
 
-            for(int i=0;i<Main.no_players;i++){
-                sum_ballXnew += (Double)(received_gamestate[i].get("ballX"));
-                sum_ballYnew += (Double)(received_gamestate[i].get("ballY"));
-                sum_ballVXnew += (Double)(received_gamestate[i].get("ballVX"));
-                sum_ballVYnew += (Double)(received_gamestate[i].get("ballVY"));
+            for (int i = 0; i < Main.no_players; i++) {
+                sum_ballXnew += (Double) (received_gamestate[i].get("ballX"));
+                sum_ballYnew += (Double) (received_gamestate[i].get("ballY"));
+                sum_ballVXnew += (Double) (received_gamestate[i].get("ballVX"));
+                sum_ballVYnew += (Double) (received_gamestate[i].get("ballVY"));
             }
-           // ballXnew = sum_ballXnew/Main.no_players;
-           // ballYnew = sum_ballYnew/Main.no_players;
-            ballVXnew = sum_ballVXnew/Main.no_players;
-            ballVYnew = sum_ballVYnew/Main.no_players;
 
-            ballXnew = sum_ballXnew/Main.no_players+ballVXnew*2;
-            ballYnew = sum_ballYnew/Main.no_players+ballVYnew*2;
+            // ballXnew = sum_ballXnew/Main.no_players;
+            // ballYnew = sum_ballYnew/Main.no_players;
+            ballVXnew = sum_ballVXnew / Main.no_players;
+            ballVYnew = sum_ballVYnew / Main.no_players;
 
-            for(int i=0;i<Main.no_players;i++){
-                sign[i] = ((Double)(received_gamestate[i].get("ballVX"))*(Double)(received_gamestate[i].get("ballVY")))>0;
-                if(oldsign[i]!=sign[i]){
-                    ballXnew = (Double)(received_gamestate[i].get("ballX"));
-                    ballYnew = (Double)(received_gamestate[i].get("ballY"));
-                    ballVXnew = (Double)(received_gamestate[i].get("ballVX"));
-                    ballVYnew = (Double)(received_gamestate[i].get("ballVY"));
+            ballXnew = sum_ballXnew / Main.no_players + ballVXnew * (Main.no_players - 1);
+            ballYnew = sum_ballYnew / Main.no_players + ballVYnew * (Main.no_players - 1);
+
+            for (int i = 0; i < Main.no_players; i++) {
+                sign[i] = ((Double) (received_gamestate[i].get("ballVX")) * (Double) (received_gamestate[i].get("ballVY"))) > 0;
+                if (oldsign[i] != sign[i]) {
+                    ballXnew = (Double) (received_gamestate[i].get("ballX"));
+                    ballYnew = (Double) (received_gamestate[i].get("ballY"));
+                    ballVXnew = (Double) (received_gamestate[i].get("ballVX"));
+                    ballVYnew = (Double) (received_gamestate[i].get("ballVY"));
                 }
             }
+
 
             ballVXnew = Ball.getBallVelX();
             ballVYnew = Ball.getBallVelY();
 
 
-
-            if(!playerL.isOwn){ playerL.setY(playerLYnew); }
-            if(!playerR.isOwn){ playerR.setY(playerRYnew); }
-            if(!playerT.isOwn){ playerT.setX(playerTXnew); }
-            if(!playerB.isOwn){ playerB.setX(playerBXnew); }
+            if (!playerL.isOwn) {
+                playerL.setY(playerLYnew);
+            }
+            if (!playerR.isOwn) {
+                playerR.setY(playerRYnew);
+            }
+            if (!playerT.isOwn) {
+                playerT.setX(playerTXnew);
+            }
+            if (!playerB.isOwn) {
+                playerB.setX(playerBXnew);
+            }
 
             Ball.setX(ballXnew);
             Ball.setY(ballYnew);
@@ -253,8 +290,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             GameState.update(playerLYnew, playerRYnew, playerTXnew, playerBXnew, ballXnew, ballYnew, ballVXnew, ballVYnew);
             //System.out.println(GameState.getString());
 
-            for(int i=0;i<Main.no_players;i++){
-                oldsign[i]=sign[i];
+            for (int i = 0; i < Main.no_players; i++) {
+                oldsign[i] = sign[i];
             }
 
         }
@@ -270,15 +307,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
     }
 
     //paint the game screen
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
 
-
-
         g.setColor(Color.WHITE);
-
 
 
         if (showTitleScreen) {
@@ -293,47 +327,57 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             String time = sdf.format(cal.getTime());
             int second_start = time.lastIndexOf(':');
-            seconds = time.substring(second_start+1);
-            g.drawString(time,175,400);
+            seconds = time.substring(second_start + 1);
+            Integer sec = Integer.parseInt(seconds);
+            String rem_seconds = "";
+            if (sec >= 0 && sec <= 19) {
+                rem_seconds = String.valueOf(19 - sec);
+            }
+            if (sec >= 20 && sec <= 39) {
+                rem_seconds = String.valueOf(39 - sec);
+            }
+            if (sec >= 40 && sec <= 59) {
+                rem_seconds = String.valueOf(59 - sec);
+            }
+
+            g.drawString(rem_seconds, 175, 400);
 
 
             //g.drawString("Press 'P' to play.", 175, 400);
-        }
-        else if (playing) {
+        } else if (playing) {
 
             g.setColor(Color.ORANGE);
             //g.fillRect(playerX, playerY, playerWidth, playerHeight);
             //Bottom
-            g.fillRect(0, Main.SIDE.intValue()-68 ,(Main.SIDE.intValue() ), 12);
+            g.fillRect(0, Main.SIDE.intValue() - 68, (Main.SIDE.intValue()), 12);
             //Top
-            g.fillRect(0, margin.intValue()-10 ,(Main.SIDE.intValue() ), 10);
+            g.fillRect(0, margin.intValue() - 10, (Main.SIDE.intValue()), 10);
             //Left
-            g.fillRect(margin.intValue()-12, 0 ,12, (Main.SIDE.intValue() ));
+            g.fillRect(margin.intValue() - 12, 0, 12, (Main.SIDE.intValue()));
             //Right
-            g.fillRect(Main.SIDE.intValue()-45, 0 ,12, (Main.SIDE.intValue() ));
+            g.fillRect(Main.SIDE.intValue() - 45, 0, 12, (Main.SIDE.intValue()));
 
             g.setColor(new Color(204, 68, 0));
             //g.fillRect(playerX, playerY, playerWidth, playerHeight);
             //Bottom
-            g.fillRect(0, Main.SIDE.intValue()-margin.intValue()-18 ,(Main.SIDE.intValue() ), margin.intValue()-12);
+            g.fillRect(0, Main.SIDE.intValue() - margin.intValue() - 18, (Main.SIDE.intValue()), margin.intValue() - 12);
             //Top
-            g.fillRect(0, 0 ,(Main.SIDE.intValue() ), margin.intValue()-10);
+            g.fillRect(0, 0, (Main.SIDE.intValue()), margin.intValue() - 10);
             //Left
-            g.fillRect(0, 0 ,margin.intValue()-10, (Main.SIDE.intValue() ));
+            g.fillRect(0, 0, margin.intValue() - 10, (Main.SIDE.intValue()));
             //Right
-            g.fillRect(Main.SIDE.intValue()-margin.intValue()+4, 0 ,margin.intValue()-10, (Main.SIDE.intValue() ));
+            g.fillRect(Main.SIDE.intValue() - margin.intValue() + 4, 0, margin.intValue() - 10, (Main.SIDE.intValue()));
 
             g.setColor(new Color(102, 34, 0));
             //g.fillRect(playerX, playerY, playerWidth, playerHeight);
             //top left
-            g.fillRect(margin.intValue()-10, margin.intValue()-10 ,10, 10);
+            g.fillRect(margin.intValue() - 10, margin.intValue() - 10, 10, 10);
             //top right
-            g.fillRect(Main.SIDE.intValue()-margin.intValue()+4-10, margin.intValue()-10 ,10, 12);
+            g.fillRect(Main.SIDE.intValue() - margin.intValue() + 4 - 10, margin.intValue() - 10, 10, 12);
             //bottom left
-            g.fillRect(margin.intValue()-10, Main.SIDE.intValue()-margin.intValue()-30 ,10, 12);
+            g.fillRect(margin.intValue() - 10, Main.SIDE.intValue() - margin.intValue() - 30, 10, 12);
             //bottom right
-            g.fillRect(Main.SIDE.intValue()-margin.intValue()+4-10, Main.SIDE.intValue()-margin.intValue()-30 ,12, 12);
-
+            g.fillRect(Main.SIDE.intValue() - margin.intValue() + 4 - 10, Main.SIDE.intValue() - margin.intValue() - 30, 12, 12);
 
 
             g.setColor(Color.BLUE);
@@ -368,14 +412,21 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             // draw ball
             Ball.drawBall(g);
-
+            paintscores(g, playerLScore, playerRScore, playerTScore, playerLScore);
             //draw the paddles
-            playerL.drawPaddle(g);
-            playerR.drawPaddle(g);
-            playerT.drawPaddle(g);
-            playerB.drawPaddle(g);
-        }
-        else if (gameOver) {
+            if (!playerL.checklost) {
+                playerL.drawPaddle(g);
+            }
+            if (!playerR.checklost) {
+                playerR.drawPaddle(g);
+            }
+            if (!playerT.checklost) {
+                playerT.drawPaddle(g);
+            }
+            if (!playerB.checklost) {
+                playerB.drawPaddle(g);
+            }
+        } else if (gameOver) {
             // TODO: improve and remove hardcoding
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
             g.drawString(String.valueOf(playerLScore), 100, 100);
@@ -386,11 +437,43 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
             g.drawString("Press space to restart.", 150, 400);
+
+
         }
     }
 
+    public static void paintscores(Graphics g, int l, int r, int u, int d) {
+        String ls = Integer.toString(l);
+        String rs = Integer.toString(r);
+        String us = Integer.toString(u);
+        String ds = Integer.toString(d);
 
-    public void keyTyped(KeyEvent e) {}
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+
+        g.setColor(Color.white);
+
+        //top
+        g.drawString("LIFE:" + us, 230, 25);
+        //bottom
+        g.drawString("LIFE:" + ds, 230, 570);
+        //left
+        ///g.drawString("", 5, 200);
+        g.drawString("L", 5, 225);
+        g.drawString("I", 5, 250);
+        g.drawString("F", 5, 275);
+        g.drawString("E", 5, 300);
+        g.drawString(ls, 5, 335);
+        //left
+        //g.drawString("L", 570, 200);
+        g.drawString("L", 570, 225);
+        g.drawString("I", 570, 250);
+        g.drawString("F", 570, 275);
+        g.drawString("E", 570, 300);
+        g.drawString(rs, 570, 335);
+    }
+
+    public void keyTyped(KeyEvent e) {
+    }
 
     public void keyPressed(KeyEvent e) {
         if (showTitleScreen) {
@@ -405,51 +488,46 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
                 playerB.setDownPress(false);
                 //setPlaying();
             }
-        }
-        else if(playing){
-          if (!playerL.isBot() && playerL.isOwn){
-              if (e.getKeyCode() == playerL.getkeyup()) {
-                  playerL.setUpPress(true);
-              }
-              else if (e.getKeyCode() == playerL.getkeydown()) {
-                  playerL.setDownPress(true);
-              }
+        } else if (playing) {
+            if (!playerL.isBot() && playerL.isOwn && !playerL.checklost) {
+                if (e.getKeyCode() == playerL.getkeyup()) {
+                    playerL.setUpPress(true);
+                } else if (e.getKeyCode() == playerL.getkeydown()) {
+                    playerL.setDownPress(true);
+                }
             }
-          if (!playerR.isBot() && playerR.isOwn){
-              if (e.getKeyCode() == playerR.getkeyup()) {
-                  playerR.setUpPress(true);
-              }
-              else if (e.getKeyCode() == playerR.getkeydown()) {
-                  playerR.setDownPress(true);
-              }
-          }
-          if (!playerT.isBot() && playerT.isOwn){
-              if (e.getKeyCode() == playerT.getkeyup()) {
-                  playerT.setUpPress(true);
-              }
-              else if (e.getKeyCode() == playerT.getkeydown()) {
-                  playerT.setDownPress(true);
-              }
-          }
-          if (!playerB.isBot() && playerB.isOwn){
-              if (e.getKeyCode() == playerB.getkeyup()) {
-                  playerB.setUpPress(true);
-              }
-              else if (e.getKeyCode() == playerB.getkeydown()) {
-                  playerB.setDownPress(true);
-              }
-          }
-        }
-        else if (gameOver) {
+            if (!playerR.isBot() && playerR.isOwn && !playerR.checklost) {
+                if (e.getKeyCode() == playerR.getkeyup()) {
+                    playerR.setUpPress(true);
+                } else if (e.getKeyCode() == playerR.getkeydown()) {
+                    playerR.setDownPress(true);
+                }
+            }
+            if (!playerT.isBot() && playerT.isOwn && !playerT.checklost) {
+                if (e.getKeyCode() == playerT.getkeyup()) {
+                    playerT.setUpPress(true);
+                } else if (e.getKeyCode() == playerT.getkeydown()) {
+                    playerT.setDownPress(true);
+                }
+            }
+            if (!playerB.isBot() && playerB.isOwn && !playerB.checklost) {
+                if (e.getKeyCode() == playerB.getkeyup()) {
+                    playerB.setUpPress(true);
+                } else if (e.getKeyCode() == playerB.getkeydown()) {
+                    playerB.setDownPress(true);
+                }
+            }
+        } else if (gameOver) {
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 gameOver = false;
                 showTitleScreen = true;
 
-                Ball.setX(Main.SIDE/2); Ball.setY(Main.SIDE/2);
-                playerL.setY(Main.SIDE/2);
-                playerR.setY(Main.SIDE/2);
-                playerT.setX(Main.SIDE/2);
-                playerB.setX(Main.SIDE/2);
+                Ball.setX(Main.SIDE / 2);
+                Ball.setY(Main.SIDE / 2);
+                playerL.setY(Main.SIDE / 2);
+                playerR.setY(Main.SIDE / 2);
+                playerT.setX(Main.SIDE / 2);
+                playerB.setX(Main.SIDE / 2);
 
                 playerLScore = 3;
                 playerRScore = 3;
@@ -461,55 +539,51 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener{
 
     public void keyReleased(KeyEvent e) {
         if (playing) {
-          if (!playerL.isBot() && playerL.isOwn){
-              if (e.getKeyCode() == playerL.getkeyup()) {
-                  playerL.setUpPress(false);
-              }
-              else if (e.getKeyCode() == playerL.getkeydown()) {
-                  playerL.setDownPress(false);
-              }
-          }
-          if (!playerR.isBot() && playerR.isOwn){
-            if (e.getKeyCode() == playerR.getkeyup()) {
-                playerR.setUpPress(false);
+            if (!playerL.isBot() && playerL.isOwn && !playerL.checklost) {
+                if (e.getKeyCode() == playerL.getkeyup()) {
+                    playerL.setUpPress(false);
+                } else if (e.getKeyCode() == playerL.getkeydown()) {
+                    playerL.setDownPress(false);
+                }
             }
-            else if (e.getKeyCode() == playerR.getkeydown()) {
-                playerR.setDownPress(false);
+            if (!playerR.isBot() && playerR.isOwn && !playerR.checklost) {
+                if (e.getKeyCode() == playerR.getkeyup()) {
+                    playerR.setUpPress(false);
+                } else if (e.getKeyCode() == playerR.getkeydown()) {
+                    playerR.setDownPress(false);
+                }
             }
-          }
-          if (!playerT.isBot() && playerT.isOwn){
-            if (e.getKeyCode() == playerT.getkeyup()) {
-                playerT.setUpPress(false);
+            if (!playerT.isBot() && playerT.isOwn && !playerT.checklost) {
+                if (e.getKeyCode() == playerT.getkeyup()) {
+                    playerT.setUpPress(false);
+                } else if (e.getKeyCode() == playerT.getkeydown()) {
+                    playerT.setDownPress(false);
+                }
             }
-            else if (e.getKeyCode() == playerT.getkeydown()) {
-                playerT.setDownPress(false);
+            if (!playerB.isBot() && playerB.isOwn && !playerB.checklost) {
+                if (e.getKeyCode() == playerB.getkeyup()) {
+                    playerB.setUpPress(false);
+                } else if (e.getKeyCode() == playerB.getkeydown()) {
+                    playerB.setDownPress(false);
+                }
             }
-          }
-          if (!playerB.isBot() && playerB.isOwn){
-            if (e.getKeyCode() == playerB.getkeyup()) {
-                playerB.setUpPress(false);
-            }
-            else if (e.getKeyCode() == playerB.getkeydown()) {
-                playerB.setDownPress(false);
-            }
-          }
         }
     }
 
-    public static void setPlaying(){
+    public static void setPlaying() {
         System.out.println("Game started");
         showTitleScreen = false;
         playing = true;
     }
 
 
-    public static void setOver(){
+    public static void setOver() {
         System.out.println("Game over");
         playing = false;
         gameOver = true;
     }
 
-    public void print (Object x){
+    public void print(Object x) {
         System.out.println(x);
     }
 

@@ -20,12 +20,12 @@ public class initialize {
         prepareGUI();
     }
 
-   
-   public static void main(String[] args){
-      initialize  swingControlDemo = new initialize();      
-      swingControlDemo.showTextFieldDemo();
-   }
-   
+
+    public static void main(String[] args) {
+        initialize swingControlDemo = new initialize();
+        swingControlDemo.showTextFieldDemo();
+    }
+
 
     private void prepareGUI() {
         mainFrame = new JFrame("Initial game screen");
@@ -52,37 +52,36 @@ public class initialize {
 
     public void showTextFieldDemo() {
         headerLabel.setText("Please Enter the required data");
-        
+
         JButton loginButton = new JButton("connect");
-        final JTextField[] iptext =new JTextField[3] ;
-        final JTextField[] porttext =new JTextField[3] ;
-        for(int i=0;i<3;i++)
-        {
-                    JLabel portlabel = new JLabel("PORT", JLabel.RIGHT);
-         			JLabel iplabel = new JLabel("IP", JLabel.CENTER);
-			         iptext[i] = new JTextField(6);
-			         porttext[i] = new JTextField(6);
-			        
-			        controlPanel.add(portlabel);
-			        controlPanel.add(iptext[i]);
-			        controlPanel.add(iplabel);
-			        controlPanel.add(porttext[i]);
-			        
-		 
+        final JTextField[] iptext = new JTextField[3];
+        final JTextField[] porttext = new JTextField[3];
+        for (int i = 0; i < 3; i++) {
+            JLabel portlabel = new JLabel("PORT", JLabel.RIGHT);
+            JLabel iplabel = new JLabel("IP", JLabel.CENTER);
+            iptext[i] = new JTextField(6);
+            porttext[i] = new JTextField(6);
+
+            controlPanel.add(portlabel);
+            controlPanel.add(iptext[i]);
+            controlPanel.add(iplabel);
+            controlPanel.add(porttext[i]);
+
+
         }
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             
             	
             	/*for(int i=0;i<3;i++)
-            	{
+                {
             		Socket echoSocket = new Socket(hostname[i], portnumber[i]);
 			    	
     			    PrintWriter out = new PrintWriter(echosocket.getOutputStream(), true);
     			    BufferedReader in = new BufferedReader(new InputStreamReader(echosocket.getInputStream()));
     			    
             	}*/
-            	
+
             }
         });
         controlPanel.add(loginButton);
