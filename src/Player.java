@@ -48,11 +48,11 @@ public class Player {
                     Double increment = Math.min(Math.abs(Ball.getBallCenterY() - this.getCenterY()), PongPanel.paddleSpeed);
                     if (this.getCenterY() > Ball.getBallCenterY()) {    // Ball is above player - move up
                         if (playerY - PongPanel.paddleSpeed > PongPanel.margin + 2) {
-                            playerY -= increment;
+                            playerY -= increment*PongPanel.difficulty ;
                         }
                     } else {
                         if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE - PongPanel.margin - 30) {
-                            playerY += increment;
+                            playerY += increment*PongPanel.difficulty;
                         }
                     }
                 } else {
@@ -74,11 +74,11 @@ public class Player {
                     Double increment = Math.min(Math.abs(Ball.getBallCenterY() - this.getCenterY()), PongPanel.paddleSpeed);
                     if (this.getCenterY() > Ball.getBallCenterY()) {    // Ball is above player - move up
                         if (playerY - PongPanel.paddleSpeed > PongPanel.margin + 2) {
-                            playerY -= increment;
+                            playerY -= increment*PongPanel.difficulty;
                         }
                     } else {
                         if (playerY + PongPanel.paddleSpeed + playerHeight < Main.SIDE - PongPanel.margin - 30) {
-                            playerY += increment;
+                            playerY += increment*PongPanel.difficulty;
                         }
                     }
                 } else {
@@ -100,11 +100,11 @@ public class Player {
                     Double increment = Math.min(Math.abs(Ball.getBallCenterX() - this.getCenterX()), PongPanel.paddleSpeed);
                     if (this.getCenterX() > Ball.getBallCenterX()) {    // Ball to left of player - move left
                         if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
-                            playerX -= increment;
+                            playerX -= increment*PongPanel.difficulty;
                         }
                     } else {
                         if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE - PongPanel.margin - 6) {
-                            playerX += increment;
+                            playerX += increment*PongPanel.difficulty;
                         }
                     }
                 } else {
@@ -126,11 +126,11 @@ public class Player {
                     Double increment = Math.min(Math.abs(Ball.getBallCenterX() - this.getCenterX()), PongPanel.paddleSpeed);
                     if (this.getCenterX() > Ball.getBallCenterX()) {    // Ball to left of player - move left
                         if (playerX - PongPanel.paddleSpeed > PongPanel.margin) {
-                            playerX -= increment;
+                            playerX -= increment*PongPanel.difficulty;
                         }
                     } else {
                         if (playerX + PongPanel.paddleSpeed + playerWidth < Main.SIDE - PongPanel.margin - 6) {
-                            playerX += increment;
+                            playerX += increment*PongPanel.difficulty;
                         }
                     }
                 } else {

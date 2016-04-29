@@ -39,6 +39,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
     public static Double paddleSpeed;
     public static Double ballvx = 1.0, ballvy = -3.0;
+    public static Double difficulty ;
 
 
     // Paddle specific variables
@@ -99,6 +100,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         playerRScore = 3;
         playerTScore = 3;
         playerBScore = 3;
+
+        difficulty = 0.6;
 
         // assign sides to players and bots
         if (!(new String(Main.sides).contains("L"))) {
