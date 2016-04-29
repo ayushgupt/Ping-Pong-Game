@@ -25,7 +25,7 @@ public class inputbox {
 
     private void prepareGUI(){
         mainFrame = new JFrame("Java Swing Examples");
-        mainFrame.setSize(340,340);
+        mainFrame.setSize(600,1500);
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
@@ -35,11 +35,12 @@ public class inputbox {
         headerLabel = new JLabel("", JLabel.CENTER);
         statusLabel = new JLabel("",JLabel.CENTER);
 
-        statusLabel.setSize(350,100);
+        statusLabel.setSize(600,100);
 
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
 
+        controlPanel.setBackground(new Color(255, 255, 102));
         mainFrame.add(headerLabel);
         mainFrame.add(controlPanel);
         mainFrame.add(statusLabel);
@@ -48,6 +49,9 @@ public class inputbox {
 
     public void showTextFieldDemo(){
         headerLabel.setText("Enter the port and ip address");
+        headerLabel.setSize(600,100);
+        headerLabel.setForeground(new Color(0, 153, 0));
+        headerLabel.setBackground(new Color(102, 140, 255));
 
         JButton[] loginButton= new  JButton[4] ;
         final JTextField[] port= new  JTextField[4] ;

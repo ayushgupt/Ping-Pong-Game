@@ -59,7 +59,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
     public PongPanel() {
 
         loadImage();
-        setBackground(new Color(255, 0, 0));
+
 
 
         //listen to key presses
@@ -101,7 +101,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         playerTScore = 3;
         playerBScore = 3;
 
-        difficulty = 0.6;
+        difficulty = 0.1;
 
         // assign sides to players and bots
         if (!(new String(Main.sides).contains("L"))) {
@@ -152,6 +152,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
     //The things in this are done only if the playing state is currently displayed
     public void step() {
         if (showTitleScreen) {
+            setBackground(new Color(102, 140, 255));
             //setPlaying();
 
             if (seconds.equals("19") || seconds.equals("39") || seconds.equals("59")) {
@@ -163,6 +164,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         //System.out.println(ball.getBallX() + " " + ball.getBallX());
         //System.out.println(playerLScore + " " + playerRScore + " " + playerTScore + " " + playerBScore );
         if (playing) {
+            setBackground(new Color(255, 255, 128));
             // update player positions
             playerL.update(PlayerType.L);
             playerR.update(PlayerType.R);
@@ -320,9 +322,10 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
         if (showTitleScreen) {
 
+
+
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-            g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-            g.drawString("Pong", 165, 100);
+            g.drawString("The Game will Start in", 120, 100);
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
 
@@ -342,8 +345,16 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
             if (sec >= 40 && sec <= 59) {
                 rem_seconds = String.valueOf(59 - sec);
             }
+            g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+            g.drawString(rem_seconds, 300, 135);
+            g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+            g.drawString("Seconds", 250, 160);
 
-            g.drawString(rem_seconds, 175, 400);
+            g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+            g.drawString("Get Ready People.!!", 140, 400);
+
+            g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+
 
 
             //g.drawString("Press 'P' to play.", 175, 400);
@@ -432,8 +443,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         } else if (gameOver) {
             // TODO: improve and remove hardcoding
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-            g.drawString(String.valueOf(playerLScore), 100, 100);
-            g.drawString(String.valueOf(playerRScore), 400, 100);
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
             g.drawString("Player L Wins!", 165, 200);

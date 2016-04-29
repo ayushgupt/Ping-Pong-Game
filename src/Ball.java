@@ -4,7 +4,7 @@
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Graphics;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -219,6 +219,7 @@ public class Ball {
     }
 
     public static void drawBall(Graphics g) {
+        g.setColor(new Color(26, 0, 51));
         g.fillOval(ballX.intValue(), ballY.intValue(), diameter.intValue(), diameter.intValue());
     }
 

@@ -29,7 +29,7 @@ public class initialize {
 
     private void prepareGUI() {
         mainFrame = new JFrame("Initial game screen");
-        mainFrame.setSize(250, 400);
+        mainFrame.setSize(600, 1500);
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {

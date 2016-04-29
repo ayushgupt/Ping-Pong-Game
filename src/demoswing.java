@@ -26,7 +26,7 @@ public class demoswing {
 
     private void prepareGUI() {
         mainFrame = new JFrame("Initial game screen");
-        mainFrame.setSize(400, 400);
+        mainFrame.setSize(600, 1500);
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -36,7 +36,7 @@ public class demoswing {
         headerLabel = new JLabel("", JLabel.CENTER);
         statusLabel = new JLabel("", JLabel.CENTER);
 
-        statusLabel.setSize(350, 100);
+        statusLabel.setSize(600, 600);
 
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
@@ -56,6 +56,7 @@ public class demoswing {
         final JTextField sideText = new JTextField(6);
 
         JButton loginButton = new JButton("Submit");
+
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
