@@ -146,7 +146,7 @@ public class firstscreen {
             	System.out.println("yo dude");
             	//starting server on accepting machine 
             	try {
-					ServerSocket serverSocket = new ServerSocket(Integer.parseInt(sideText.getText()) );
+					ServerSocket serverSocket = new ServerSocket(Integer.parseInt(sideText1.getText()) );
 					System.out.println(Integer.parseInt(sideText1.getText()));
 					Socket temp=serverSocket.accept() ;
 					System.out.println("yo dude2");
@@ -183,8 +183,8 @@ public class firstscreen {
 					temp.close() ;
 					serverSocket.close() ;
 					//start making other connections
-					int ownport = Integer.parseInt(sideText.getText()) ;
-					Main.ownServer = new server(Integer.parseInt(sideText.getText())) ;
+					int ownport = Integer.parseInt(sideText1.getText()) ;
+					Main.ownServer = new server(ownport) ;
 					
 					
 					//Main.final_client[0].connect("localhost", 9000, 1) ;

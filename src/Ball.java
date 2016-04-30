@@ -73,8 +73,10 @@ public class Ball {
                         PongPanel.playerL.checklost = true;
                     }
 
-                    ballX = Main.SIDE / 2;
-                    ballY = Main.SIDE / 2;
+                    // ballX = Main.SIDE / 2;
+                    // ballY = Main.SIDE / 2;
+                    ballDeltaX *= (-1);
+
                 } else {
 
                     ballDeltaX *= (-1);
@@ -98,8 +100,10 @@ public class Ball {
                         PongPanel.playerR.checklost = true;
                     }
 
-                    ballX = Main.SIDE / 2;
-                    ballY = Main.SIDE / 2;
+                    // ballX = Main.SIDE / 2;
+                    // ballY = Main.SIDE / 2;
+                    ballDeltaX *= (-1);
+
                 } else {
                     ballDeltaX *= -1;
                     //t1.start() ;
@@ -120,8 +124,9 @@ public class Ball {
                         PongPanel.playerT.checklost = true;
                     }
 
-                    ballX = Main.SIDE / 2;
-                    ballY = Main.SIDE / 2;
+                    // ballX = Main.SIDE / 2;
+                    // ballY = Main.SIDE / 2;
+                    ballDeltaY *= (-1);
 
                 } else {
 
@@ -144,8 +149,9 @@ public class Ball {
                         PongPanel.playerB.checklost = true;
                     }
 
-                    ballX = Main.SIDE / 2;
-                    ballY = Main.SIDE / 2;
+                    // ballX = Main.SIDE / 2;
+                    // ballY = Main.SIDE / 2;
+                    ballDeltaY *= (-1);
 
                 } else {
                     ballDeltaY *= -1;

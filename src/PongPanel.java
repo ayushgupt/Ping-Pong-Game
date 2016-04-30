@@ -38,7 +38,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
     public static Player playerB;
 
     public static Double paddleSpeed;
-    public static Double ballvx = 1.0, ballvy = -3.0;
+    public static Double ballvx = 1.0*2, ballvy = -3.0*2;
     public static Double difficulty ;
 
 
@@ -52,6 +52,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
     private boolean[] sign;
     private boolean[] oldsign;
+
+    public static String winner = "";
 
     private Image pinpon;
 
@@ -101,7 +103,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
         playerTScore = 3;
         playerBScore = 3;
 
-        difficulty = 0.1;
+        difficulty = 0.6;
 
         // assign sides to players and bots
         if (!(new String(Main.sides).contains("L"))) {
@@ -160,8 +162,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
             }
         }
         //System.out.println(getHeight()+" "+getWidth());
-        //System.out.println(ball.getBallVelX() + " " + ball.getBallVelX());
-        //System.out.println(ball.getBallX() + " " + ball.getBallX());
+        //System.out.println(ball.getBallVelX() + " " + ball.getBallVelY());
+        //System.out.println(ball.getBallX() + " " + ball.getBallY());
         //System.out.println(playerLScore + " " + playerRScore + " " + playerTScore + " " + playerBScore );
         if (playing) {
             setBackground(new Color(255, 255, 128));
@@ -445,7 +447,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-            g.drawString("Player L Wins!", 165, 200);
+            g.drawString("Player "+winner+" Wins!", 165, 200);
 
             g.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
             g.drawString("Press space to restart.", 150, 400);
@@ -591,6 +593,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 
     public static void setOver(String side) {
         System.out.println("Game over");
+        winner = side;
         System.out.println("Player "+side+" won");
         playing = false;
         gameOver = true;
