@@ -38,7 +38,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
     public static Player playerB;
 
     public static Double paddleSpeed;
-    public static Double ballvx = 1.0*2, ballvy = -3.0*2;
+    public static Double ballvx = 1.0/2, ballvy = -3.0/2;
     public static Double difficulty ;
 
 

@@ -48,6 +48,7 @@ public class serverthread extends Thread {
                     i = i % 22;
                     i++;
 
+                    System.out.println("sending...");
                     //System.out.println("Sent:"+own_gamestate);
                 }
                 // break;

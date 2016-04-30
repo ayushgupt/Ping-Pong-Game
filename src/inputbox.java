@@ -176,7 +176,7 @@ public class inputbox {
         		  controlPanel.add(start) ;
         		  start.addActionListener(new ActionListener() {
                       public void actionPerformed(ActionEvent e) {
-                          if (Main.num_connected == Main.no_players - 1) {
+                          //if (Main.num_connected == Main.no_players - 1) {
                               Main.network_info = new JSONObject();
                               Main.ownId = 0;  //starting id is always 0
 
@@ -245,11 +245,11 @@ public class inputbox {
 
                               mainFrame.setVisible(false) ;
                               
-                          } else {
+                          /*} else {
                               System.out.println(Main.num_connected);
                               System.out.println(Main.no_players);
                               statusLabel.setText("Not all Players are connected");
-                          }
+                          }*/
                           //initializing sides
 
 
